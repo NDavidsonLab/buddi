@@ -1,0 +1,67 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "buddi-v2"
+version = "0.1.0"
+description = "BuDDI: Bulk Deconvolution with Domain Invariance to predict cell-type-specific perturbations from bulk"
+readme = "README.md"
+requires-python = ">=3.9,<4"
+authors = [
+  {name = "Natalie R. Davidson", email = "NATALIE.DAVIDSON@cuanschutz.edu"},
+  {name = "Weishan Li", email = "WEISHAN.2.LI@CUANSCHUTZ.EDU"},
+]
+maintainers = [
+  {name = "David Bunten", email = "DAVE.BUNTEN@cuanschutz.edu"},
+  {name = "Faisal Alquaddoomi", email = "FAISAL.ALQUADDOOMI@cuanschutz.edu"},
+]
+
+dependencies = [
+  "anndata>=0.10.9",
+  "ipython>=8.18.1",
+  "matplotlib>=3.9.4",
+  "numpy>=1.26.4",
+  "pandas>=2.3.3",
+  "scikit-learn>=1.6.1",
+  "seaborn>=0.13.2",
+  # Default: CPU-capable everywhere it exists.
+  # On Linux/Windows this can still use GPU if the right runtime is present,
+  # but for a "batteries included" CUDA install use the gpu-nvidia extra below.
+  "tensorflow>=2.16,<3; platform_system != 'Darwin' or platform_machine == 'arm64'",
+  # macOS Intel fallback (TF mainline doesn't publish macOS x86_64 wheels currently)
+  # Note: this tends to lag behind tensorflow releases.
+  "tensorflow-macos==2.16.2; platform_system == 'Darwin' and platform_machine == 'x86_64'",
+  "tensorflow-metal>=1.2.0",
+  "tqdm>=4.67.1",
+  "umap-learn>=0.5.11",
+]
+
+[project.optional-dependencies]
+# NVIDIA CUDA path (Linux + WSL2). Installs TF plus CUDA-related Python deps.
+# Works in WSL2 because platform_system inside WSL2 is 'Linux'.
+with-gpu = [
+  "tensorflow[and-cuda]>=2.16,<3; platform_system == 'Linux'",
+  "tensorflow-metal>=1.2.0; platform_system == 'Darwin' and platform_machine == 'arm64'",
+]
+
+
+# JupyterLab and dependencies for running example notebooks
+notebooks = [
+  "jupyterlab>=3.0",
+  "ipywidgets>=8.1.8",
+  "jupyterlab-widgets>=3.0.16",
+  "scanpy>=1.9",
+  "scipy>=1.5",
+  "joblib>=1.0",
+  "matplotlib-venn>=0.11",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.4.2",
+]
+
+[tool.setuptools]
+packages = ["buddi_v2"]
+package-dir = {"" = "src"}
