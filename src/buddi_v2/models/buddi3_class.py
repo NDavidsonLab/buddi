@@ -91,7 +91,7 @@ class BuDDI3(BuDDIAbstract):
         """
         if len(encoder_branch_names) != 2:
             raise ValueError(
-                f"Expected 0 encoder branch names, got {len(encoder_branch_names)}"
+                f"Expected 2 encoder branch names, got {len(encoder_branch_names)}"
             )
         elif not all(isinstance(name, str) for name in encoder_branch_names):
             raise ValueError(

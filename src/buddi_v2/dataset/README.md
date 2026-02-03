@@ -31,13 +31,13 @@ This module provides utilities for constructing supervised and unsupervised Tens
     **Returns**: `tf.data.Dataset` object with shape and type signatures matching the provided arrays
 
 #### `buddi3_dataset.py` Similar to `buddi4_dataset.py`, a wrapper of `get_dataset`
-- **`get_supervised_dataset`**: prepares a ready to use dataset for buddi4 from pseudobulk data with known cell-type proportions
+- **`get_supervised_dataset`**: prepares a ready to use dataset for buddi3 from pseudobulk data with known cell-type proportions
     - `X_known_prop`: expression matrix (n_samples × n_genes)
     - `Y_known_prop`: ground-truth proportions (n_samples × n_cell_types)
     - `label_known_prop`: one-hot encoded sample IDs (n_samples × n_unique_labels)
     - `samp_type_known_prop`: one-hot sample type labels (n_samples × 2), typically [1, 0] for single-cell and [0, 1] for bulk
 
-- **`get_unsupervised_dataset`**: prepares a ready to use dataset for buddi4 from pseudobulk samples **without** known cell-type proportions
+- **`get_unsupervised_dataset`**: prepares a ready to use dataset for buddi3 from pseudobulk samples **without** known cell-type proportions
     - `X_unknown_prop`: expression matrix (n_samples × n_genes)
     - `label_unknown_prop`: one-hot encoded sample IDs (n_samples × n_unique_labels)
     - `samp_type_unknown_prop`: one-hot sample type labels (n_samples × 2), typically [0, 1] for bulk
