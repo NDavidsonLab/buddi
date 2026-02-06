@@ -26,7 +26,7 @@ Below is a schematic of the VAE structure of BuDDI:
 
 ### Installation
 
-First, you need to install dependencies using your package manager. Below is an example for OS X using brew.
+First, you need to install dependencies using your package manager. Below is an example for OS X using [brew](https://brew.sh/).
 
 ```bash
 brew install hdf5 c-blosc cython
