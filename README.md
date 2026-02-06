@@ -51,7 +51,7 @@ pip install git+https://github.com/NDavidsonLab/buddi_v2.git#egg=buddi_v2[notebo
 ### Usage
 See the [tutorial](https://github.com/greenelab/buddi_analysis) for detailed instructions on how to use BuDDI.
 
-To import BuDDI and its helper methods in your notebook, simply add the following
+To import BuDDI and its helper methods within your Python code, simply add the following
 
 ```python
 from buddi_v2 import buddi
