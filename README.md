@@ -12,7 +12,7 @@ This creates a situation where we have deep cellular profiles of one sample or c
 A schematic of what BuDDi's methodological goal is shown below:
 
 <p align="center">
-<img src="https://github.com/nrosed/buddi/blob/main/buddi_goal.png" width="50%" height="50%">
+<img src="https://raw.githubusercontent.com/NDavidsonLab/buddi_v2/refs/heads/main/buddi_goal.png" width="50%" height="50%">
 </p>
   
 **To bridge this gap, we propose BuDDI (BUlk Deconvolution with Domain Invariance).**
