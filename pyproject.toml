@@ -7,7 +7,7 @@ name = "buddi-v2"
 version = "0.1.0"
 description = "BuDDI: Bulk Deconvolution with Domain Invariance to predict cell-type-specific perturbations from bulk"
 readme = "README.md"
-requires-python = ">=3.9,<4"
+requires-python = ">=3.9,<3.11"
 authors = [
   {name = "Natalie R. Davidson", email = "NATALIE.DAVIDSON@cuanschutz.edu"},
   {name = "Weishan Li", email = "WEISHAN.2.LI@CUANSCHUTZ.EDU"},
