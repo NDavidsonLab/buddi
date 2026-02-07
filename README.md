@@ -48,6 +48,22 @@ Second, you will install BuDDI from github using pip. It is recommended that you
 pip install git+https://github.com/NDavidsonLab/buddi_v2.git#egg=buddi_v2[notebooks]
 ```
 
+### Using the Example Notebooks
+
+Once you've installed BuDDI v2 with the `[notebooks]` extra, you can run the example notebooks provided in the `examples/` directory.
+
+You can use the helper task `buddi-lab`, added via [Poe the Poet](https://poethepoet.natn.io/index.html), to start it.
+```bash
+poe buddi-lab
+```
+
+Alternatively, in the virtualenv in which you've installed BuDDI, you can create
+a kernel for the current venv and then start Jupyter Lab with the following command:
+```bash
+python -m ipykernel install --user --name buddi-v2 --display-name "Python (buddi-v2)"
+python -m jupyter lab examples/
+```
+
 ### Usage
 See the [tutorial](https://github.com/greenelab/buddi_analysis) for detailed instructions on how to use BuDDI.
 
