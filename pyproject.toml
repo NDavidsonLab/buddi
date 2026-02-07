@@ -25,30 +25,29 @@ dependencies = [
   "pandas>=2.3.3",
   "scikit-learn>=1.6.1",
   "seaborn>=0.13.2",
-  # Default: CPU-capable everywhere it exists.
-  # On Linux/Windows this can still use GPU if the right runtime is present,
-  # but for a "batteries included" CUDA install use the gpu-nvidia extra below.
+  # Default TensorFlow: CPU-capable everywhere; no CUDA deps unless [and-cuda] is requested.
   "tensorflow>=2.16,<3; platform_system != 'Darwin' or platform_machine == 'arm64'",
-  # macOS Intel fallback (TF mainline doesn't publish macOS x86_64 wheels currently)
-  # Note: this tends to lag behind tensorflow releases.
-  "tensorflow-macos==2.16.2; platform_system == 'Darwin' and platform_machine == 'x86_64'",
-  "tensorflow-metal>=1.2.0",
+  # macOS Intel: cap at the last line that shipped x86_64 wheels
+  "tensorflow>=2.16,<2.17; platform_system == 'Darwin' and platform_machine == 'x86_64'",
   "tqdm>=4.67.1",
   "umap-learn>=0.5.11",
+  "poethepoet>=0.37.0",
 ]
 
 [project.optional-dependencies]
 # NVIDIA CUDA path (Linux + WSL2). Installs TF plus CUDA-related Python deps.
 # Works in WSL2 because platform_system inside WSL2 is 'Linux'.
 with-gpu = [
+  # Linux/WSL2 CUDA: pull in TF plus CUDA-related python deps via the official extra
   "tensorflow[and-cuda]>=2.16,<3; platform_system == 'Linux'",
+  # Apple Silicon Metal plugin (base TF already installed by the default deps above)
   "tensorflow-metal>=1.2.0; platform_system == 'Darwin' and platform_machine == 'arm64'",
 ]
-
 
 # JupyterLab and dependencies for running example notebooks
 notebooks = [
   "jupyterlab>=3.0",
+  "ipykernel>=6.29",
   "ipywidgets>=8.1.8",
   "jupyterlab-widgets>=3.0.16",
   "scanpy>=1.9",
@@ -63,5 +62,25 @@ dev = [
 ]
 
 [tool.setuptools]
-packages = ["buddi_v2"]
 package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["buddi_v2*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+markers = [
+  "smoke: mark test as smoke test",
+  "regression: mark test as regression test",
+  "metal_enabled: mark test as requiring metal enabled device",
+]
+
+[tool.poe.tasks]
+install-kernel = "python -m ipykernel install --user --name buddi-v2 --display-name 'Python (buddi-v2)'"
+run-notebooks = "python -m jupyter lab examples/"
+buddi-lab  = [
+  "install-kernel",
+  "run-notebooks",
+]
