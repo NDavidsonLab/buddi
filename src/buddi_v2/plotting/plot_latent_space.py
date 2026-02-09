@@ -6,13 +6,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
-import umap.umap_ as umap
+from umap.umap_ import UMAP
 
 def _get_projection(z, type='PCA'):
     if type == 'PCA':
         proj = PCA(n_components=2)
     elif type == 'UMAP':
-        proj = umap.UMAP(n_components=2)
+        proj = UMAP(n_components=2)
     elif type == 'tSNE':
         proj = TSNE(n_components=2)
     else:
