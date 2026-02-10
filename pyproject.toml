@@ -90,3 +90,4 @@ tasks.buddi-lab = [
 [tool.vulture]
 min_confidence = 90
 paths = [ "src/buddi_v2", "tests" ]
+ignore_names = [ "training", "n_bulks", "n_cells" ]
