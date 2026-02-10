@@ -1,0 +1,40 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+---
+cff-version: 1.2.0
+title: buddi_v2
+message: >-
+  If you use this software, please cite it using the
+  metadata from the CITATION.cff file.
+type: software
+authors:
+  - given-names: Weishan
+    family-names: Li
+    orcid: 'https://orcid.org/0009-0001-4643-9372'
+  - given-names: Faisal
+    family-names: Alquaddoomi
+    orcid: 'https://orcid.org/0000-0003-4297-8747'
+  - given-names: David
+    family-names: Bunten
+    orcid: "https://orcid.org/0000-0001-6041-3665"
+  - given-names: Natalie
+    family-names: Davidson
+    orcid: 'https://orcid.org/0000-0002-1745-8072'
+repository-code: "https://github.com/NDavidsonLab/buddi_v2"
+abstract: |
+  This is a refactored version of the original BuDDI model—rewritten enough that it felt better to make it a separate repo instead of a fork.
+  BuDDI v2 also fully switches over to TensorFlow 2 (the original was TF1), so the v2 numbering also fits nicely.
+keywords:
+  - python
+  - research-software
+  - bulk-rna-seq
+  - single-cell-rna-seq
+  - transcriptomics
+  - deconvolution
+  - domain-adaptation
+  - domain-invariance
+  - variational-autoencoder
+  - cell-type-specific-perturbations
+  - computational-biology
+  - tensorflow-2
+license: BSD-3-Clause
