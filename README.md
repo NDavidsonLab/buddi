@@ -6,19 +6,19 @@ You can find notebooks that exemplify how to use the library under `examples`.
 
 ### Overview
 
-While single-cell experiments provide deep cellular resolution within a single sample, some are inherently more challenging than bulk experiments due to dissociation difficulties, cost, or limited tissue availability. 
-This creates a situation where we have deep cellular profiles of one sample or condition, and bulk profiles across multiple samples and conditions. 
+While single-cell experiments provide deep cellular resolution within a single sample, some are inherently more challenging than bulk experiments due to dissociation difficulties, cost, or limited tissue availability.
+This creates a situation where we have deep cellular profiles of one sample or condition, and bulk profiles across multiple samples and conditions.
 
 A schematic of what BuDDi's methodological goal is shown below:
 
 <p align="center">
 <img src="https://raw.githubusercontent.com/NDavidsonLab/buddi_v2/refs/heads/main/buddi_goal.png" width="50%" height="50%">
 </p>
-  
+
 **To bridge this gap, we propose BuDDI (BUlk Deconvolution with Domain Invariance).**
 
-BuDDI utilizes domain adaptation techniques to effectively integrate available corpora of case-control bulk and reference scRNA-seq observations to infer cell-type-specific perturbation effects. 
-BuDDI achieves this by learning independent latent spaces within a single variational autoencoder (VAE) encompassing at least four sources of variability: 1) cell-type proportion, 2) perturbation effect, 3) structured experimental variability, and 4) remaining variability. 
+BuDDI utilizes domain adaptation techniques to effectively integrate available corpora of case-control bulk and reference scRNA-seq observations to infer cell-type-specific perturbation effects.
+BuDDI achieves this by learning independent latent spaces within a single variational autoencoder (VAE) encompassing at least four sources of variability: 1) cell-type proportion, 2) perturbation effect, 3) structured experimental variability, and 4) remaining variability.
 Since each latent space is encouraged to be independent, we simulate perturbation responses by independently composing each latent space to simulate cell-type-specific perturbation responses.
 
 Below is a schematic of the VAE structure of BuDDI:
@@ -30,7 +30,7 @@ First, you need to install dependencies using your package manager. Below is an 
 
 ```bash
 brew install hdf5 c-blosc cython
-export HDF5_DIR=/opt/homebrew/opt/hdf5 
+export HDF5_DIR=/opt/homebrew/opt/hdf5
 export BLOSC_DIR=/opt/homebrew/opt/c-blosc
 ```
 
@@ -53,18 +53,21 @@ pip install git+https://github.com/NDavidsonLab/buddi_v2.git#egg=buddi_v2[notebo
 Once you've installed BuDDI v2 with the `[notebooks]` extra, you can run the example notebooks provided in the `examples/` directory.
 
 You can use the helper task `buddi-lab`, added via [Poe the Poet](https://poethepoet.natn.io/index.html), to start it.
+
 ```bash
 poe buddi-lab
 ```
 
 Alternatively, in the virtualenv in which you've installed BuDDI, you can create
 a kernel for the current venv and then start Jupyter Lab with the following command:
+
 ```bash
 python -m ipykernel install --user --name buddi-v2 --display-name "Python (buddi-v2)"
 python -m jupyter lab examples/
 ```
 
 ### Usage
+
 See the [tutorial](https://github.com/greenelab/buddi_analysis) for detailed instructions on how to use BuDDI.
 
 To import BuDDI and its helper methods within your Python code, simply add the following
@@ -76,4 +79,5 @@ from buddi_v2.plotting import validation_plotting as vp
 ```
 
 ## Why it's "v2"
+
 This is a refactored version of the original BuDDI model—rewritten enough that it felt better to make it a separate repo instead of a fork. BuDDI v2 also fully switches over to TensorFlow 2 (the original was TF1), so the v2 numbering also fits nicely.
