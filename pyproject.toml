@@ -1,86 +1,92 @@
 [build-system]
-requires = ["setuptools>=61", "wheel"]
 build-backend = "setuptools.build_meta"
+requires = [ "setuptools>=61", "wheel" ]
 
 [project]
 name = "buddi-v2"
 version = "0.1.0"
 description = "BuDDI: Bulk Deconvolution with Domain Invariance to predict cell-type-specific perturbations from bulk"
 readme = "README.md"
-requires-python = ">=3.9,<3.11"
-authors = [
-  {name = "Natalie R. Davidson", email = "NATALIE.DAVIDSON@cuanschutz.edu"},
-  {name = "Weishan Li", email = "WEISHAN.2.LI@CUANSCHUTZ.EDU"},
-]
 maintainers = [
-  {name = "David Bunten", email = "DAVE.BUNTEN@cuanschutz.edu"},
-  {name = "Faisal Alquaddoomi", email = "FAISAL.ALQUADDOOMI@cuanschutz.edu"},
+  { name = "David Bunten", email = "DAVE.BUNTEN@cuanschutz.edu" },
+  { name = "Faisal Alquaddoomi", email = "FAISAL.ALQUADDOOMI@cuanschutz.edu" },
 ]
-
+authors = [
+  { name = "Natalie R. Davidson", email = "NATALIE.DAVIDSON@cuanschutz.edu" },
+  { name = "Weishan Li", email = "WEISHAN.2.LI@CUANSCHUTZ.EDU" },
+]
+requires-python = ">=3.9,<3.11"
+classifiers = [
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+]
 dependencies = [
   "anndata>=0.10.9",
   "ipython>=8.18.1",
   "matplotlib>=3.9.4",
   "numpy>=1.26.4",
   "pandas>=2.3.3",
+  "poethepoet>=0.37",
   "scikit-learn>=1.6.1",
   "seaborn>=0.13.2",
-  # Default TensorFlow: CPU-capable everywhere; no CUDA deps unless [and-cuda] is requested.
-  "tensorflow>=2.16,<3; platform_system != 'Darwin' or platform_machine == 'arm64'",
   # macOS Intel: cap at the last line that shipped x86_64 wheels
-  "tensorflow>=2.16,<2.17; platform_system == 'Darwin' and platform_machine == 'x86_64'",
+  "tensorflow>=2.16,<2.17; platform_system=='Darwin' and platform_machine=='x86_64'",
+  # Default TensorFlow: CPU-capable everywhere; no CUDA deps unless [and-cuda] is requested.
+  "tensorflow>=2.16,<3; platform_system!='Darwin' or platform_machine=='arm64'",
   "tqdm>=4.67.1",
   "umap-learn>=0.5.11",
-  "poethepoet>=0.37.0",
 ]
-
-[project.optional-dependencies]
-# NVIDIA CUDA path (Linux + WSL2). Installs TF plus CUDA-related Python deps.
-# Works in WSL2 because platform_system inside WSL2 is 'Linux'.
-with-gpu = [
-  # Linux/WSL2 CUDA: pull in TF plus CUDA-related python deps via the official extra
-  "tensorflow[and-cuda]>=2.16,<3; platform_system == 'Linux'",
-  # Apple Silicon Metal plugin (base TF already installed by the default deps above)
-  "tensorflow-metal>=1.2.0; platform_system == 'Darwin' and platform_machine == 'arm64'",
-]
-
 # JupyterLab and dependencies for running example notebooks
-notebooks = [
-  "jupyterlab>=3.0",
+optional-dependencies.notebooks = [
   "ipykernel>=6.29",
   "ipywidgets>=8.1.8",
+  "joblib>=1",
+  "jupyterlab>=3",
   "jupyterlab-widgets>=3.0.16",
+  "matplotlib-venn>=0.11",
   "scanpy>=1.9",
   "scipy>=1.5",
-  "joblib>=1.0",
-  "matplotlib-venn>=0.11",
+]
+# NVIDIA CUDA path (Linux + WSL2). Installs TF plus CUDA-related Python deps.
+# Works in WSL2 because platform_system inside WSL2 is 'Linux'.
+optional-dependencies.with-gpu = [
+  # Linux/WSL2 CUDA: pull in TF plus CUDA-related python deps via the official extra
+  "tensorflow[and-cuda]>=2.16,<3; platform_system=='Linux'",
+  # Apple Silicon Metal plugin (base TF already installed by the default deps above)
+  "tensorflow-metal>=1.2; platform_system=='Darwin' and platform_machine=='arm64'",
 ]
 
 [dependency-groups]
 dev = [
-    "pytest>=8.4.2",
+  "pytest>=8.4.2",
 ]
 
 [tool.setuptools]
-package-dir = {"" = "src"}
+package-dir = { "" = "src" }
+packages.find.where = [ "src" ]
+packages.find.include = [ "buddi_v2*" ]
 
-[tool.setuptools.packages.find]
-where = ["src"]
-include = ["buddi_v2*"]
+[tool.ruff]
+extend-exclude = [ "*.ipynb" ]
 
-[tool.pytest.ini_options]
-testpaths = ["tests"]
-python_files = ["test_*.py"]
-markers = [
+[tool.pytest]
+ini_options.testpaths = [ "tests" ]
+ini_options.python_files = [ "test_*.py" ]
+ini_options.markers = [
   "smoke: mark test as smoke test",
   "regression: mark test as regression test",
   "metal_enabled: mark test as requiring metal enabled device",
 ]
 
-[tool.poe.tasks]
-install-kernel = "python -m ipykernel install --user --name buddi-v2 --display-name 'Python (buddi-v2)'"
-run-notebooks = "python -m jupyter lab examples/"
-buddi-lab  = [
+[tool.poe]
+tasks.install-kernel = "python -m ipykernel install --user --name buddi-v2 --display-name 'Python (buddi-v2)'"
+tasks.run-notebooks = "python -m jupyter lab examples/"
+tasks.buddi-lab = [
   "install-kernel",
   "run-notebooks",
 ]
+
+[tool.vulture]
+min_confidence = 90
+paths = [ "src/buddi_v2", "tests" ]
