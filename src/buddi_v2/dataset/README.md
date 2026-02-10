@@ -9,6 +9,7 @@ This module provides utilities for constructing supervised and unsupervised Tens
 ## Overview
 
 ### Module file structure
+
 ```
 .
 ├── buddi3_dataset.py       # High-level dataset builders for buddi3
@@ -22,42 +23,52 @@ This module provides utilities for constructing supervised and unsupervised Tens
 ### Important functions
 
 #### `dataset_generator.py`
-- **`get_dataset`**: low-level customizable dataset constructor
-    - `input_tuple_order`: list of keys defining the order of model inputs (default: `['X', 'Y_prop']`)
-    - `output_tuple_order`: list of keys defining order of model outputs (default includes latent and label outputs)
-    - `dtypes`: optional dictionary mapping each key to a NumPy dtype (defaults to float32 if not provided)
-    - `**kwargs`: key-value pairs of NumPy arrays, where keys match the elements in `input_tuple_order` and `output_tuple_order`. The use may specify dummy targets that will be returned as a dimension 1 scalar of 0 by specifying a name in `output_tuple_order` and not including it in `**kwargs`
 
-    **Returns**: `tf.data.Dataset` object with shape and type signatures matching the provided arrays
+- **`get_dataset`**: low-level customizable dataset constructor
+
+  - `input_tuple_order`: list of keys defining the order of model inputs (default: `['X', 'Y_prop']`)
+  - `output_tuple_order`: list of keys defining order of model outputs (default includes latent and label outputs)
+  - `dtypes`: optional dictionary mapping each key to a NumPy dtype (defaults to float32 if not provided)
+  - `**kwargs`: key-value pairs of NumPy arrays, where keys match the elements in `input_tuple_order` and `output_tuple_order`. The use may specify dummy targets that will be returned as a dimension 1 scalar of 0 by specifying a name in `output_tuple_order` and not including it in `**kwargs`
+
+  **Returns**: `tf.data.Dataset` object with shape and type signatures matching the provided arrays
 
 #### `buddi3_dataset.py` Similar to `buddi4_dataset.py`, a wrapper of `get_dataset`
+
 - **`get_supervised_dataset`**: prepares a ready to use dataset for buddi3 from pseudobulk data with known cell-type proportions
-    - `X_known_prop`: expression matrix (n_samples × n_genes)
-    - `Y_known_prop`: ground-truth proportions (n_samples × n_cell_types)
-    - `label_known_prop`: one-hot encoded sample IDs (n_samples × n_unique_labels)
-    - `samp_type_known_prop`: one-hot sample type labels (n_samples × 2), typically [1, 0] for single-cell and [0, 1] for bulk
+
+  - `X_known_prop`: expression matrix (n_samples × n_genes)
+  - `Y_known_prop`: ground-truth proportions (n_samples × n_cell_types)
+  - `label_known_prop`: one-hot encoded sample IDs (n_samples × n_unique_labels)
+  - `samp_type_known_prop`: one-hot sample type labels (n_samples × 2), typically [1, 0] for single-cell and [0, 1] for bulk
 
 - **`get_unsupervised_dataset`**: prepares a ready to use dataset for buddi3 from pseudobulk samples **without** known cell-type proportions
-    - `X_unknown_prop`: expression matrix (n_samples × n_genes)
-    - `label_unknown_prop`: one-hot encoded sample IDs (n_samples × n_unique_labels)
-    - `samp_type_unknown_prop`: one-hot sample type labels (n_samples × 2), typically [0, 1] for bulk
+
+  - `X_unknown_prop`: expression matrix (n_samples × n_genes)
+  - `label_unknown_prop`: one-hot encoded sample IDs (n_samples × n_unique_labels)
+  - `samp_type_unknown_prop`: one-hot sample type labels (n_samples × 2), typically [0, 1] for bulk
 
 #### `buddi4_dataset.py` Similar to `buddi3_dataset.py`, a wrapper of `get_dataset`
+
 - **`get_supervised_dataset`**: prepares a ready to use dataset for buddi4 from pseudobulk data with known cell-type proportions
-    - `X_known_prop`: expression matrix (n_samples × n_genes)
-    - `Y_known_prop`: ground-truth proportions (n_samples × n_cell_types)
-    - `label_known_prop`: one-hot encoded sample IDs (n_samples × n_unique_labels)
-    - `stim_known_prop`: one-hot encoded stimulation IDs (n_samples × n_stimulations)
-    - `samp_type_known_prop`: one-hot sample type labels (n_samples × 2), typically [1, 0] for single-cell and [0, 1] for bulk
+
+  - `X_known_prop`: expression matrix (n_samples × n_genes)
+  - `Y_known_prop`: ground-truth proportions (n_samples × n_cell_types)
+  - `label_known_prop`: one-hot encoded sample IDs (n_samples × n_unique_labels)
+  - `stim_known_prop`: one-hot encoded stimulation IDs (n_samples × n_stimulations)
+  - `samp_type_known_prop`: one-hot sample type labels (n_samples × 2), typically [1, 0] for single-cell and [0, 1] for bulk
 
 - **`get_unsupervised_dataset`**: prepares a ready to use dataset for buddi4 from pseudobulk samples **without** known cell-type proportions
-    - `X_unknown_prop`: expression matrix (n_samples × n_genes)
-    - `label_unknown_prop`: one-hot encoded sample IDs (n_samples × n_unique_labels)
-    - `stim_unknown_prop`: one-hot encoded stimulation IDs (n_samples × n_stimulations)
-    - `samp_type_unknown_prop`: one-hot sample type labels (n_samples × 2), typically [0, 1] for bulk
+
+  - `X_unknown_prop`: expression matrix (n_samples × n_genes)
+  - `label_unknown_prop`: one-hot encoded sample IDs (n_samples × n_unique_labels)
+  - `stim_unknown_prop`: one-hot encoded stimulation IDs (n_samples × n_stimulations)
+  - `samp_type_unknown_prop`: one-hot sample type labels (n_samples × 2), typically [0, 1] for bulk
 
 ## Usage
+
 See examples for more details
+
 ```python
 import numpy as np
 from buddi_v2.dataset.buddi4_dataset import get_supervised_dataset, get_unsupervised_dataset

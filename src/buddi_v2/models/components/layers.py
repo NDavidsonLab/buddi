@@ -4,6 +4,7 @@ import tensorflow as tf
 from tensorflow.keras.layers import Layer
 import tensorflow.keras.backend as K
 
+
 class ReparameterizationLayer(Layer):
     """
     Custom layer that applies the reparameterization trick.
@@ -13,14 +14,16 @@ class ReparameterizationLayer(Layer):
     def __init__(self, name="reparameterization_layer", **kwargs):
         """
         Initializes the reparameterization layer.
-        
+
         :param name: Name of the layer.
         :param kwargs: Additional keyword arguments for the base Layer class.
         """
         super(ReparameterizationLayer, self).__init__(name=name, **kwargs)
         self.__deterministic: bool = False
-        self.__seed: Optional[int] = None # really the base seed for deterministic behavior
-        self.__call_counter: int = 0 # doubles as secondary seed, allows for deterministic but non-identical epsilon
+        self.__seed: Optional[int] = (
+            None  # really the base seed for deterministic behavior
+        )
+        self.__call_counter: int = 0  # doubles as secondary seed, allows for deterministic but non-identical epsilon
 
     def call(self, z_params, training=None):
         """
@@ -40,11 +43,10 @@ class ReparameterizationLayer(Layer):
         z_sigma = K.exp(0.5 * z_log_var)
 
         if self.__deterministic:
-            seed_tensor = tf.constant([self.__seed, self.__call_counter], dtype=tf.int32)
-            epsilon = tf.random.stateless_normal(
-                shape=tf.shape(z_mu),
-                seed=seed_tensor
+            seed_tensor = tf.constant(
+                [self.__seed, self.__call_counter], dtype=tf.int32
             )
+            epsilon = tf.random.stateless_normal(shape=tf.shape(z_mu), seed=seed_tensor)
             self.__call_counter += 1
         else:
             # Sample from standard normal distribution
@@ -52,7 +54,7 @@ class ReparameterizationLayer(Layer):
 
         # Reparameterization trick: z = mu + sigma * epsilon
         return z_mu + z_sigma * epsilon
-    
+
     def set_deterministic(self, deterministic: bool, seed: Optional[int] = None):
         """
         Set the layer to deterministic mode.
@@ -66,7 +68,7 @@ class ReparameterizationLayer(Layer):
                 raise ValueError("Seed must be an integer.")
             self.__seed = seed
         else:
-            self.__seed = None       
-        
+            self.__seed = None
+
         self.__deterministic = deterministic
-        self.__call_counter = 0 # reset call counter as secondary seed component
+        self.__call_counter = 0  # reset call counter as secondary seed component
