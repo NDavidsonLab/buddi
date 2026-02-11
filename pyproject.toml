@@ -1,16 +1,9 @@
 [build-system]
-requires = [ "setuptools>=61", "wheel", "setuptools-scm>=8" ]
 build-backend = "setuptools.build_meta"
-
-[tool.setuptools_scm]
-root = "."
-version_scheme = "no-guess-dev"
-local_scheme = "no-local-version"
-version_file = "src/buddi_v2/_version.py"
+requires = [ "setuptools>=61", "setuptools-scm>=8", "wheel" ]
 
 [project]
 name = "buddi-v2"
-dynamic = ["version"]
 description = "BuDDI: Bulk Deconvolution with Domain Invariance to predict cell-type-specific perturbations from bulk"
 readme = "README.md"
 maintainers = [
@@ -27,6 +20,7 @@ classifiers = [
   "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
 ]
+dynamic = [ "version" ]
 dependencies = [
   "anndata>=0.10.9",
   "ipython>=8.18.1",
@@ -78,6 +72,12 @@ docs = [
 package-dir = { "" = "src" }
 packages.find.where = [ "src" ]
 packages.find.include = [ "buddi_v2*" ]
+
+[tool.setuptools_scm]
+root = "."
+version_scheme = "no-guess-dev"
+local_scheme = "no-local-version"
+version_file = "src/buddi_v2/_version.py"
 
 [tool.ruff]
 extend-exclude = [ "*.ipynb" ]
