@@ -11,10 +11,8 @@ import numpy as np
 import pandas as pd
 import anndata as ad
 
-#from .. import preprocessing
+# from .. import preprocessing
 from buddi_v2 import preprocessing
-from buddi_v2.preprocessing import utils
-from buddi_v2.preprocessing import generate_pseudo_bulks
 
 # -----------------------------------------------------------------------------
 # Helper type aliases
@@ -25,10 +23,11 @@ NoiseSpec = Union[None, List[np.ndarray], Tuple[float, float]]
 # Main class
 # -----------------------------------------------------------------------------
 
+
 class SCAugmentor:
     """Generate single‑cell–derived pseudo‑bulk RNA‑seq profiles.
 
-    Instantiates with an `AnnData` object. 
+    Instantiates with an `AnnData` object.
     Streamlines the augmentation of scRNA-seq data for use with BuDDI training.
     Supports 3 flavors of augmentation, each configurable with the `configure_*` setters:
     - `random`: Generates pseudo-bulks with random proportions of cell types.
@@ -37,7 +36,7 @@ class SCAugmentor:
     *note: The augmentation is by done per sample/stim/datasplit combination as this
         best facilitates model training. There is currently no alternative to this.
 
-    The `run` method is called to generate the pseudo‑bulk profiles and writes them to 
+    The `run` method is called to generate the pseudo‑bulk profiles and writes them to
         to a user specified directory as pkl files, with the following naming
         convention::
         `{sample};{stim};{split};prop_splits.pkl`: matrix of truth cell type proportions
@@ -172,7 +171,7 @@ class SCAugmentor:
         Configure the single‑cell dominant pseudo‑bulk generator.
         Any parameter not specified will keep its previously configured value.
 
-        :param n_bulks: Number of pseudo‑bulks to generate per sample/stim/datasplit condition and per cell-type. 
+        :param n_bulks: Number of pseudo‑bulks to generate per sample/stim/datasplit condition and per cell-type.
             Default is 100.
         :param n_cells: Number of cells to sample in each pseudo‑bulk. Default is 5000.
         :param background_prop: Proportion of background cells in the pseudo‑bulk. Default is 0.01.
@@ -187,13 +186,13 @@ class SCAugmentor:
         use_sample_noise: Optional[bool] = None,
     ) -> "SCAugmentor":
         """
-        Configure the noise settings for pseudo‑bulk generation. 
+        Configure the noise settings for pseudo‑bulk generation.
         Any parameter not specified will keep its previously configured value.
 
-        :param cell_noise: Noise specification for cell type proportions. 
+        :param cell_noise: Noise specification for cell type proportions.
             Can be a length n_celltypes list of arrays of shape (1, n_genes) of multiplicative noise
             or a tuple of (mean, sigma) for in-place randomly generated log-normal noise,
-            or an empty array to indicate no noise. 
+            or an empty array to indicate no noise.
             Default is no noise.
         :param use_sample_noise: Whether to use sample noise. Default is False.
         """
@@ -221,7 +220,7 @@ class SCAugmentor:
         augmentation_name: str,
         seed: Optional[int] = None,
         overwrite: bool = True,
-        write_gene_ids: bool = True
+        write_gene_ids: bool = True,
     ) -> None:
         if seed is not None:
             np.random.seed(seed)
@@ -237,7 +236,8 @@ class SCAugmentor:
                         _rm_tree(p)
             else:
                 raise FileExistsError(
-                    f"{out_dir} already exists; set overwrite=True to replace it.")
+                    f"{out_dir} already exists; set overwrite=True to replace it."
+                )
         out_dir.mkdir(parents=True, exist_ok=True)
 
         # Save configuration for provenance --------------------------------
@@ -278,14 +278,11 @@ class SCAugmentor:
     ## TODO: this is very ugly and does not account for missing stim/split
     ## should consider to refactor to a pandas groupby and iter
     def _process_triple(
-            self, 
-            sample: str, 
-            stim: str, 
-            split: str, 
-            out_dir: Path) -> None:
+        self, sample: str, stim: str, split: str, out_dir: Path
+    ) -> None:
         """Generate pseudo‑bulk profiles for a given sample/stim/split combination.
         This is the main driver for generating pseudo-bulk profiles.
-        Finds the subset of adata matching the provided sample/stim/split and 
+        Finds the subset of adata matching the provided sample/stim/split and
             runs all configured flavors of augmentation.
 
         :param sample: Sample ID.
@@ -294,7 +291,9 @@ class SCAugmentor:
         :param out_dir: Output directory for saving the generated profiles pkl.
         :return: None
         """
-        print(f"Generating pseudo‑bulk profiles for sample {sample}, stim {stim}, split {split} …")
+        print(
+            f"Generating pseudo‑bulk profiles for sample {sample}, stim {stim}, split {split} …"
+        )
 
         obs = self.adata.obs
         subset_idx = np.where(
@@ -376,7 +375,9 @@ class SCAugmentor:
         # Write pickles ----------------------------------------------------
         prefix = f"{sample};{stim};{split};"
         (out_dir / f"{prefix}prop_splits.pkl").write_bytes(pickle.dumps(props_df))
-        (out_dir / f"{prefix}pseudo_splits.pkl").write_bytes(pickle.dumps(pseudobulk_df))
+        (out_dir / f"{prefix}pseudo_splits.pkl").write_bytes(
+            pickle.dumps(pseudobulk_df)
+        )
         (out_dir / f"{prefix}meta_splits.pkl").write_bytes(pickle.dumps(metadata_df))
 
         print(f"  Done for {sample}, {stim}, {split}.\n")
@@ -386,14 +387,14 @@ class SCAugmentor:
     # ---------------------------------------------------------------------
 
     def _generate_random_pb(
-            self, 
-            sub_adata: ad.AnnData, 
-            cell_df: pd.DataFrame, 
-            present_cell_types: List[str], 
-            sample: str, 
-            stim: str, 
-            split: str
-        ) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
+        self,
+        sub_adata: ad.AnnData,
+        cell_df: pd.DataFrame,
+        present_cell_types: List[str],
+        sample: str,
+        stim: str,
+        split: str,
+    ) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
         """
         Generate pseudo-bulk profiles with random proportions of cell types.
         Streamlined call of the preprocessing functions to generate random pseudo-bulks.
@@ -430,24 +431,26 @@ class SCAugmentor:
         )
 
         # Assemble metadata for augmentation type
-        meta_df = pd.DataFrame({
-            self.sample_col: [sample] * cfg["n_bulks"],
-            self.stim_col: [stim] * cfg["n_bulks"],
-            "cell_prop_type": ["random"] * cfg["n_bulks"],
-            "cell_type": ["random"] * cfg["n_bulks"],
-            "samp_type": ["sc_ref"] * cfg["n_bulks"],
-            self.split_col: [split] * cfg["n_bulks"],
-        })
+        meta_df = pd.DataFrame(
+            {
+                self.sample_col: [sample] * cfg["n_bulks"],
+                self.stim_col: [stim] * cfg["n_bulks"],
+                "cell_prop_type": ["random"] * cfg["n_bulks"],
+                "cell_type": ["random"] * cfg["n_bulks"],
+                "samp_type": ["sc_ref"] * cfg["n_bulks"],
+                self.split_col: [split] * cfg["n_bulks"],
+            }
+        )
         return pb_df, prop_df, meta_df
 
     def _generate_realistic_pb(
-            self, 
-            sub_adata: ad.AnnData, 
-            cell_df: pd.DataFrame, 
-            sample: str, 
-            stim: str, 
-            split: str
-        ) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
+        self,
+        sub_adata: ad.AnnData,
+        cell_df: pd.DataFrame,
+        sample: str,
+        stim: str,
+        split: str,
+    ) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
         """
         Generate pseudo-bulk profiles with realistic proportions of cell types.
         Streamlined call of the preprocessing functions to generate realistic pseudo-bulks.
@@ -489,25 +492,27 @@ class SCAugmentor:
         )
 
         # Assemble metadata for augmentation type
-        meta_df = pd.DataFrame({
-            self.sample_col: [sample] * cfg["n_bulks"],
-            self.stim_col: [stim] * cfg["n_bulks"],
-            "cell_prop_type": ["realistic"] * cfg["n_bulks"],
-            "cell_type": ["realistic"] * cfg["n_bulks"],
-            "samp_type": ["sc_ref"] * cfg["n_bulks"],
-            self.split_col: [split] * cfg["n_bulks"],
-        })
+        meta_df = pd.DataFrame(
+            {
+                self.sample_col: [sample] * cfg["n_bulks"],
+                self.stim_col: [stim] * cfg["n_bulks"],
+                "cell_prop_type": ["realistic"] * cfg["n_bulks"],
+                "cell_type": ["realistic"] * cfg["n_bulks"],
+                "samp_type": ["sc_ref"] * cfg["n_bulks"],
+                self.split_col: [split] * cfg["n_bulks"],
+            }
+        )
         return pb_df, realistic_props_df, meta_df
 
     def _generate_singlecell_pb(
-            self, 
-            sub_adata: ad.AnnData, 
-            cell_df: pd.DataFrame, 
-            present_cell_types: List[str], 
-            sample: str, 
-            stim: str, 
-            split: str
-        ) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
+        self,
+        sub_adata: ad.AnnData,
+        cell_df: pd.DataFrame,
+        present_cell_types: List[str],
+        sample: str,
+        stim: str,
+        split: str,
+    ) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
         """
         Generate pseudo-bulk profiles with a single cell type dominating the profile.
         Streamlined call of the preprocessing functions to generate single-cell dominant pseudo-bulks.
@@ -522,12 +527,14 @@ class SCAugmentor:
         """
         cfg = self._single_cfg
         # Generate single-cell dominant proportions
-        single_props_df, single_meta = preprocessing.utils.generate_single_celltype_dominant_props(
-            num_samp=cfg["n_bulks"],
-            cell_order=self._cell_order,
-            present_cell_types=present_cell_types,
-            background_prop=cfg["background_prop"],
-            return_metadata=True,
+        single_props_df, single_meta = (
+            preprocessing.utils.generate_single_celltype_dominant_props(
+                num_samp=cfg["n_bulks"],
+                cell_order=self._cell_order,
+                present_cell_types=present_cell_types,
+                background_prop=cfg["background_prop"],
+                return_metadata=True,
+            )
         )
 
         # Convert to counts
@@ -545,14 +552,16 @@ class SCAugmentor:
         )
 
         # Assemble metadata for augmentation type
-        meta_df = pd.DataFrame({
-            self.sample_col: sample, # automatically expanded to match single_meta
-            self.stim_col: stim,
-            "cell_prop_type": "single_celltype",
-            "cell_type": single_meta,
-            "samp_type": "sc_ref",
-            self.split_col: split,
-        })
+        meta_df = pd.DataFrame(
+            {
+                self.sample_col: sample,  # automatically expanded to match single_meta
+                self.stim_col: stim,
+                "cell_prop_type": "single_celltype",
+                "cell_type": single_meta,
+                "samp_type": "sc_ref",
+                self.split_col: split,
+            }
+        )
         return pb_df, single_props_df, meta_df
 
     # ---------------------------------------------------------------------
@@ -572,7 +581,9 @@ class SCAugmentor:
         print(f"  #Splits  : {len(self._splits)}")
         print(f"  #Cell types : {len(self._cell_types)}")
         print("\nContingency table (sample × split):")
-        ctab = pd.crosstab(self.adata.obs[self.sample_col], self.adata.obs[self.split_col])
+        ctab = pd.crosstab(
+            self.adata.obs[self.sample_col], self.adata.obs[self.split_col]
+        )
         print(ctab)
         print("-----------------------------------------------\n")
 
@@ -591,11 +602,13 @@ class SCAugmentor:
 # Helper functions outside the class
 # -----------------------------------------------------------------------------
 
+
 def _update_dict(dest: Dict[str, Any], local_vars: Dict[str, Any]) -> None:
     """Utility: update *dest* with non‑None values from *local_vars*."""
     for k, v in local_vars.items():
-        if k in dest and v is not None: # skips None values
+        if k in dest and v is not None:  # skips None values
             dest[k] = v
+
 
 def _rm_tree(path: Path) -> None:
     """Recursively delete a folder (like shutil.rmtree but without import)."""
@@ -606,8 +619,9 @@ def _rm_tree(path: Path) -> None:
             _rm_tree(p)
     path.rmdir()
 
+
 def load_sc_augmentation_dir(
-  dir_path: Union[os.PathLike, str]
+    dir_path: Union[os.PathLike, str],
 ) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     """Load all pseudo/prop/meta pickle splits from a single‑cell augmentation.
 
@@ -652,10 +666,15 @@ def load_sc_augmentation_dir(
         raise RuntimeError(f"No *_splits.pkl files found in {dir_path}")
 
     # Sanity‑check: each prefix must have all three kinds
-    missing = {pref: {k for k in ("pseudo", "prop", "meta") if k not in kinds}
-               for pref, kinds in file_map.items() if len(kinds) < 3}
+    missing = {
+        pref: {k for k in ("pseudo", "prop", "meta") if k not in kinds}
+        for pref, kinds in file_map.items()
+        if len(kinds) < 3
+    }
     if missing:
-        raise RuntimeError("Incomplete split sets for prefixes: " + ", ".join(missing.keys()))
+        raise RuntimeError(
+            "Incomplete split sets for prefixes: " + ", ".join(missing.keys())
+        )
 
     # Deterministic order (alphabetical prefix)
     prefixes = sorted(file_map.keys())

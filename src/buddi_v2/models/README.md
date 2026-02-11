@@ -1,9 +1,11 @@
 # BuDDI model
-Currently, the only supported module architecture is buddi4 with 4 latent spaces + slack. 
+
+Currently, the only supported module architecture is buddi4 with 4 latent spaces + slack.
 
 ## Overview
 
 ### Module file structure
+
 ```
 .
 ├── buddi_abstract_class.py  # The abstract buddi class allowing for subclasses with arbitrary number of encoder branches
@@ -22,147 +24,161 @@ Currently, the only supported module architecture is buddi4 with 4 latent spaces
 
 ### Important Functions/Class
 
-
 - **`BuDDI3`/`BuDDI4`**: class versions BuDDI that exposes a pure setter-based loss API and separates model building from compilation.
 
-    - `n_x`: number of genes (features in the input)
-    - `n_y`: number of cell types (features in the output or target Y)
-    - `z_dim`: latent space dimension (default: 64)
-    - `encoder_hidden_dim`: number of units in encoder hidden layers (default: 512)
-    - `decoder_hidden_dim`: number of units in decoder hidden layers (default: 512)
-    - `activation`: activation function for encoder and classifier hidden layers (default: `'relu'`)
-    - `output_activation`: activation function for decoder and classifier output layers (default: `'sigmoid'`)
-    - `kwargs`: `n_[branch name]`- number of features for encoder branch classifier, by default, for BuDDI3/4 they are
-        - `n_labels`: number of unique sample identifiers (used in label classification branch)
-        - `n_stims`: number of stimulation conditions (BuDDI4 only)
-        - `n_samp_types`: number of sample types    
+  - `n_x`: number of genes (features in the input)
+  - `n_y`: number of cell types (features in the output or target Y)
+  - `z_dim`: latent space dimension (default: 64)
+  - `encoder_hidden_dim`: number of units in encoder hidden layers (default: 512)
+  - `decoder_hidden_dim`: number of units in decoder hidden layers (default: 512)
+  - `activation`: activation function for encoder and classifier hidden layers (default: `'relu'`)
+  - `output_activation`: activation function for decoder and classifier output layers (default: `'sigmoid'`)
+  - `kwargs`: `n_[branch name]`- number of features for encoder branch classifier, by default, for BuDDI3/4 they are
+    - `n_labels`: number of unique sample identifiers (used in label classification branch)
+    - `n_stims`: number of stimulation conditions (BuDDI4 only)
+    - `n_samp_types`: number of sample types
 
-    **Returns**:
-    - A `BuDDI3`/`BuDDI4` class instance with model parts (`encoders`, `classifiers`, `prop_estimator`, `decoder`) constructed but not yet compiled.
+  **Returns**:
+
+  - A `BuDDI3`/`BuDDI4` class instance with model parts (`encoders`, `classifiers`, `prop_estimator`, `decoder`) constructed but not yet compiled.
 
 - **`compile`**: compile the supervised and unsupervised models for training.
 
-    **Parameters**:
-    - `optimizer`: a Keras optimizer instance (default: `Adam(learning_rate=0.0005)`)
+  **Parameters**:
 
-    **Returns**:
-    - Compiled supervised (`sup_model`) and unsupervised (`unsup_model`) Keras models accessible via properties.
+  - `optimizer`: a Keras optimizer instance (default: `Adam(learning_rate=0.0005)`)
+
+  **Returns**:
+
+  - Compiled supervised (`sup_model`) and unsupervised (`unsup_model`) Keras models accessible via properties.
 
 - **Loss setters**: methods for flexible loss assignment before compiling.
-    
-    - **`set_reconstruction_loss(fn, weight)`**: set reconstruction loss for decoder.
-    - **`set_encoder_loss(branch_name, fn, weight)`**: set KL divergence loss for a specific latent space encoder branch.
-    - **`set_all_encoder_losses(fn, weight)`**: set the same KL divergence loss for all encoder branches.
-    - **`set_predictor_loss(branch_name, fn, weight)`**: set classification loss for a specific latent space classifier.
-    - **`set_all_predictor_losses(fn, weight)`**: set the same classification loss for all latent space classifiers.
-    - **`set_prop_estimator_loss(fn, weight)`**: set loss function for the bulk proportion estimator.
+
+  - **`set_reconstruction_loss(fn, weight)`**: set reconstruction loss for decoder.
+  - **`set_encoder_loss(branch_name, fn, weight)`**: set KL divergence loss for a specific latent space encoder branch.
+  - **`set_all_encoder_losses(fn, weight)`**: set the same KL divergence loss for all encoder branches.
+  - **`set_predictor_loss(branch_name, fn, weight)`**: set classification loss for a specific latent space classifier.
+  - **`set_all_predictor_losses(fn, weight)`**: set the same classification loss for all latent space classifiers.
+  - **`set_prop_estimator_loss(fn, weight)`**: set loss function for the bulk proportion estimator.
 
 - **Properties**: attributes accessible after building or compiling.
 
-    - `encoder_branch_names`: list of names of encoder branches (`['label', 'stim', 'samp_type']`)
-    - `config`: dictionary of model hyperparameters.
-    - `sup_model`: compiled supervised Keras model (available after `compile()`).
-    - `unsup_model`: compiled unsupervised Keras model (available after `compile()`).
-    - `decoder`: the shared decoder model.
-    - `prop_estimator`: the bulk proportion estimator model.
-    - `encoders`: dictionary of encoder branches (models).
-    - `classifiers`: dictionary of latent space classifier branches (models).
-    - `reparam_layers`: dictionary of reparameterization layers.
-    - `history`: placeholder for training history (currently not used).
+  - `encoder_branch_names`: list of names of encoder branches (`['label', 'stim', 'samp_type']`)
+  - `config`: dictionary of model hyperparameters.
+  - `sup_model`: compiled supervised Keras model (available after `compile()`).
+  - `unsup_model`: compiled unsupervised Keras model (available after `compile()`).
+  - `decoder`: the shared decoder model.
+  - `prop_estimator`: the bulk proportion estimator model.
+  - `encoders`: dictionary of encoder branches (models).
+  - `classifiers`: dictionary of latent space classifier branches (models).
+  - `reparam_layers`: dictionary of reparameterization layers.
+  - `history`: placeholder for training history (currently not used).
 
 - **`save(directory)`**: saves the model weights and configuration to the specified directory.
 
-    **Parameters**:
-    - `directory`: path to save model configuration and weights.
+  **Parameters**:
+
+  - `directory`: path to save model configuration and weights.
 
 - **`load(directory)`**: loads a saved BuDDI4 model from disk.
 
-    **Parameters**:
-    - `directory`: path to load model configuration and weights from.
+  **Parameters**:
 
-    **Returns**:
-    - `BuDDI4` instance reconstructed with loaded weights and configuration.
+  - `directory`: path to load model configuration and weights from.
+
+  **Returns**:
+
+  - `BuDDI4` instance reconstructed with loaded weights and configuration.
 
 - **Notes**:
-    - `fit()` is intentionally not implemented inside the class. Use external `fit_buddi4()` function for training.
-    - `save()` and `load()` methods handle only model architecture (`config.json`) and weights (`.h5` files), not optimizer states.
+
+  - `fit()` is intentionally not implemented inside the class. Use external `fit_buddi4()` function for training.
+  - `save()` and `load()` methods handle only model architecture (`config.json`) and weights (`.h5` files), not optimizer states.
 
 - **`fit_buddi`**: Generic BuDDI model training function
-    - Trains both the supervised and unsupervised models in alternating batches.
-    - Assumes the supervised dataset is larger than the unsupervised dataset.
-    - Unsupervised dataset is repeated to match the number of supervised batches per epoch.
-    - Returns a concatenated DataFrame of loss values from both supervised and unsupervised models.
 
-    **Parameters**:
-    - `supervised_model`: the supervised model returned from `build_buddi4`
-    - `unsupervised_model`: the unsupervised model returned from `build_buddi4`
-    - `dataset_supervised`: tf.data.Dataset with `(X, Y)` tuples (used for supervised learning)
-    - `dataset_unsupervised`: tf.data.Dataset with `(X, Y)` where Y can be dummy or placeholder (used for unsupervised learning)
-    - `dataset_test_supervised`: Optional validation dataset, same requirement as `dataset_supervised`
-    - `dataset_test_unsupervised`: Optional validation dataset, same requirement as `dataset_unsupervised`
-    - `epochs`: number of epochs to train (default: 10)
-    - `batch_size`: batch size (default: 16)
-    - `shuffle_every_epoch`: whether to reshuffle datasets every epoch (default: True)
-    - `prefetch`: whether to prefetch batches using TensorFlow autotuning (default: False)
+  - Trains both the supervised and unsupervised models in alternating batches.
+  - Assumes the supervised dataset is larger than the unsupervised dataset.
+  - Unsupervised dataset is repeated to match the number of supervised batches per epoch.
+  - Returns a concatenated DataFrame of loss values from both supervised and unsupervised models.
 
-    **Returns**:
-    - `pd.DataFrame`: a DataFrame of all losses per batch per epoch, with a `type` column indicating `supervised` or `unsupervised`, and a `split` column indicating train or validation loss
+  **Parameters**:
+
+  - `supervised_model`: the supervised model returned from `build_buddi4`
+  - `unsupervised_model`: the unsupervised model returned from `build_buddi4`
+  - `dataset_supervised`: tf.data.Dataset with `(X, Y)` tuples (used for supervised learning)
+  - `dataset_unsupervised`: tf.data.Dataset with `(X, Y)` where Y can be dummy or placeholder (used for unsupervised learning)
+  - `dataset_test_supervised`: Optional validation dataset, same requirement as `dataset_supervised`
+  - `dataset_test_unsupervised`: Optional validation dataset, same requirement as `dataset_unsupervised`
+  - `epochs`: number of epochs to train (default: 10)
+  - `batch_size`: batch size (default: 16)
+  - `shuffle_every_epoch`: whether to reshuffle datasets every epoch (default: True)
+  - `prefetch`: whether to prefetch batches using TensorFlow autotuning (default: False)
+
+  **Returns**:
+
+  - `pd.DataFrame`: a DataFrame of all losses per batch per epoch, with a `type` column indicating `supervised` or `unsupervised`, and a `split` column indicating train or validation loss
 
 - **`build_buddi4`**(legacy): the model instantiation function, with the following parameters:
-    - `n_x`: number of genes (features in the input)
-    - `n_y`: number of cell types (features in the output or target Y)
-    - `n_labels`: number of unique sample identifiers (used in label classification branch)
-    - `n_stims`: number of stimulation conditions
-    - `n_samp_types`: number of sample types
-    - `z_dim`: latent space dimension (default: 64)
-    - `encoder_hidden_dim`: number of units in encoder hidden layers (default: 512)
-    - `decoder_hidden_dim`: number of units in decoder hidden layers (default: 512)
-    - `alpha_x`: weight of reconstruction loss
-    - `alpha_label`: weight of label classification loss
-    - `alpha_stim`: weight of stimulation classification loss
-    - `alpha_samp_type`: weight of sample type classification loss
-    - `alpha_prop`: weight of proportion estimator loss
-    - `beta_kl_slack`: KL loss weight for the slack branch
-    - `beta_kl_label`: KL loss weight for the label branch
-    - `beta_kl_stim`: KL loss weight for the stimulation branch
-    - `beta_kl_samp_type`: KL loss weight for the sample type branch
-    - `reconstr_loss_fn`: reconstruction loss function (default: `MeanSquaredError`)
-    - `classifier_loss_fn`: default classifier loss function (default: `CategoricalCrossentropy`)
-    - `label_classifier_loss_fn`: optional custom loss function for the label classifier
-    - `stim_classifier_loss_fn`: optional custom loss function for the stimulation classifier
-    - `samp_type_classifier_loss_fn`: optional custom loss function for the sample type classifier
-    - `prop_estimator_loss_fn`: optional custom loss function for the proportion estimator
-    - `activation`: activation function to use (default: `'relu'`)
-    - `optimizer`: Keras optimizer instance (default: `Adam(learning_rate=0.0005)`)
-    - `return_decoder`: if `True`, also return the decoder models
 
-    **Returns**:
-    - If `return_decoder=False`: `(supervised_model, unsupervised_model)`
-    - If `return_decoder=True`: `(supervised_model, unsupervised_model, supervised_decoder, unsupervised_decoder)`
+  - `n_x`: number of genes (features in the input)
+  - `n_y`: number of cell types (features in the output or target Y)
+  - `n_labels`: number of unique sample identifiers (used in label classification branch)
+  - `n_stims`: number of stimulation conditions
+  - `n_samp_types`: number of sample types
+  - `z_dim`: latent space dimension (default: 64)
+  - `encoder_hidden_dim`: number of units in encoder hidden layers (default: 512)
+  - `decoder_hidden_dim`: number of units in decoder hidden layers (default: 512)
+  - `alpha_x`: weight of reconstruction loss
+  - `alpha_label`: weight of label classification loss
+  - `alpha_stim`: weight of stimulation classification loss
+  - `alpha_samp_type`: weight of sample type classification loss
+  - `alpha_prop`: weight of proportion estimator loss
+  - `beta_kl_slack`: KL loss weight for the slack branch
+  - `beta_kl_label`: KL loss weight for the label branch
+  - `beta_kl_stim`: KL loss weight for the stimulation branch
+  - `beta_kl_samp_type`: KL loss weight for the sample type branch
+  - `reconstr_loss_fn`: reconstruction loss function (default: `MeanSquaredError`)
+  - `classifier_loss_fn`: default classifier loss function (default: `CategoricalCrossentropy`)
+  - `label_classifier_loss_fn`: optional custom loss function for the label classifier
+  - `stim_classifier_loss_fn`: optional custom loss function for the stimulation classifier
+  - `samp_type_classifier_loss_fn`: optional custom loss function for the sample type classifier
+  - `prop_estimator_loss_fn`: optional custom loss function for the proportion estimator
+  - `activation`: activation function to use (default: `'relu'`)
+  - `optimizer`: Keras optimizer instance (default: `Adam(learning_rate=0.0005)`)
+  - `return_decoder`: if `True`, also return the decoder models
 
+  **Returns**:
+
+  - If `return_decoder=False`: `(supervised_model, unsupervised_model)`
+  - If `return_decoder=True`: `(supervised_model, unsupervised_model, supervised_decoder, unsupervised_decoder)`
 
 - **`fit_buddi4`**(legacy): the BUDDI4 model training function
-    - Trains both the supervised and unsupervised models in alternating batches.
-    - Assumes the supervised dataset is larger than the unsupervised dataset.
-    - Unsupervised dataset is repeated to match the number of supervised batches per epoch.
-    - Returns a concatenated DataFrame of loss values from both supervised and unsupervised models.
 
-    **Parameters**:
-    - `supervised_model`: the supervised model returned from `build_buddi4`
-    - `unsupervised_model`: the unsupervised model returned from `build_buddi4`
-    - `dataset_supervised`: tf.data.Dataset with `(X, Y)` tuples (used for supervised learning)
-    - `dataset_unsupervised`: tf.data.Dataset with `(X, Y)` where Y can be dummy or placeholder (used for unsupervised learning)
-    - `epochs`: number of epochs to train (default: 10)
-    - `batch_size`: batch size (default: 16)
-    - `shuffle_every_epoch`: whether to reshuffle datasets every epoch (default: True)
-    - `prefetch`: whether to prefetch batches using TensorFlow autotuning (default: False)
+  - Trains both the supervised and unsupervised models in alternating batches.
+  - Assumes the supervised dataset is larger than the unsupervised dataset.
+  - Unsupervised dataset is repeated to match the number of supervised batches per epoch.
+  - Returns a concatenated DataFrame of loss values from both supervised and unsupervised models.
 
-    **Returns**:
-    - `pd.DataFrame`: a DataFrame of all losses per batch per epoch, with a `type` column indicating `supervised` or `unsupervised`
+  **Parameters**:
 
+  - `supervised_model`: the supervised model returned from `build_buddi4`
+  - `unsupervised_model`: the unsupervised model returned from `build_buddi4`
+  - `dataset_supervised`: tf.data.Dataset with `(X, Y)` tuples (used for supervised learning)
+  - `dataset_unsupervised`: tf.data.Dataset with `(X, Y)` where Y can be dummy or placeholder (used for unsupervised learning)
+  - `epochs`: number of epochs to train (default: 10)
+  - `batch_size`: batch size (default: 16)
+  - `shuffle_every_epoch`: whether to reshuffle datasets every epoch (default: True)
+  - `prefetch`: whether to prefetch batches using TensorFlow autotuning (default: False)
+
+  **Returns**:
+
+  - `pd.DataFrame`: a DataFrame of all losses per batch per epoch, with a `type` column indicating `supervised` or `unsupervised`
 
 ## Usage
+
 Class version
+
 ```python
 from tensorflow.keras.losses import CategoricalCrossentropy, MeanAbsoluteError
 from tensorflow.keras.optimizers import Adam
@@ -172,7 +188,7 @@ from buddi_v2.models.fit import fit_buddi
 from buddi_v2.models.buddi4_class import BuDDI4
 
 # See module `dataset` for details in dataset construction
-dataset_supervised = ... 
+dataset_supervised = ...
 dataset_unsupervised = ...
 
 obj = BuDDI4(
@@ -197,12 +213,12 @@ obj.set_encoder_loss(
         'samp_type',
     ],
     fn=kl_loss,
-    weight=100.0,    
+    weight=100.0,
 )
 obj.set_encoder_loss(
     branch='slack',
     fn=kl_loss,
-    weight=0.1,    
+    weight=0.1,
 )
 
 # configure classifier loss
@@ -238,11 +254,12 @@ loss_df = fit_buddi(
 ```
 
 Legacy Function version
+
 ```python
 from buddi_v2.models.buddi4 import build_buddi4, fit_buddi4
 
 # See module `dataset` for details in dataset construction
-dataset_supervised = ... 
+dataset_supervised = ...
 dataset_unsupervised = ...
 
 # Build model

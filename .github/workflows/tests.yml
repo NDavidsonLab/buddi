@@ -1,0 +1,24 @@
+---
+# used for running automated tests
+name: tests
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  pre_commit_checks:
+    runs-on: ubuntu-24.04
+    steps:
+      # checks out the repo
+      - uses: actions/checkout@v4
+      # run pre-commit
+      - name: Python setup
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+      - name: Install the latest version of uv
+        uses: astral-sh/setup-uv@v6
+      # use prek for speedy precommit results
+      - uses: j178/prek-action@v1

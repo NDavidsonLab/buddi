@@ -6,24 +6,28 @@ import warnings
 
 from ..plotting.plot_data import plot_data
 
+
 class BuDDI4Data:
     """
     Data container for BuDDI dataset, supports filtering and data retrieval.
     """
+
     def __init__(
         self,
-        X : np.ndarray, 
-        y: np.ndarray, 
-        label: np.ndarray, 
-        stim: np.ndarray, 
-        samp_type: np.ndarray, 
+        X: np.ndarray,
+        y: np.ndarray,
+        label: np.ndarray,
+        stim: np.ndarray,
+        samp_type: np.ndarray,
         meta: pd.DataFrame,
-        gene_names, cell_type_names, encode_meta,
+        gene_names,
+        cell_type_names,
+        encode_meta,
         sample_column: str = "sample_id",
         stim_column: str = "stim",
         samp_type_column: str = "samp_type",
         split_column: str = "isTraining",
-        ct_column: str = "cell_type"
+        ct_column: str = "cell_type",
     ):
         # store metadata column names (read-only)
         self._sample_column = sample_column
@@ -35,9 +39,12 @@ class BuDDI4Data:
         # store raw data
         self.data = {
             "all": {
-                "X": X, "Y": y,
-                "label": label, "stim": stim,
-                "samp_type": samp_type, "meta": meta.reset_index(drop=True, inplace=False)
+                "X": X,
+                "Y": y,
+                "label": label,
+                "stim": stim,
+                "samp_type": samp_type,
+                "meta": meta.reset_index(drop=True, inplace=False),
             }
         }
         self._gene_names = gene_names
@@ -69,7 +76,7 @@ class BuDDI4Data:
                         raise TypeError(f"meta_{cond} must be a pandas DataFrame")
                     length = len(arr)
                 else:
-                    if not hasattr(arr, '__len__'):
+                    if not hasattr(arr, "__len__"):
                         raise TypeError(f"{key}_{cond} must be array-like with __len__")
                     length = len(arr)
                 lengths[key] = length
@@ -81,11 +88,19 @@ class BuDDI4Data:
     def _check_meta_columns(self):
         """Ensure required metadata columns exist for both conditions."""
         for cond in self.data:
-            meta = self.data[cond]['meta']
-            for attr in ['sample_column', 'stim_column', 'samp_type_column', 'split_column', 'ct_column']:
+            meta = self.data[cond]["meta"]
+            for attr in [
+                "sample_column",
+                "stim_column",
+                "samp_type_column",
+                "split_column",
+                "ct_column",
+            ]:
                 col_name = getattr(self, f"_{attr}")
                 if col_name not in meta.columns:
-                    raise ValueError(f"Column '{col_name}' not found in metadata of '{cond}'")
+                    raise ValueError(
+                        f"Column '{col_name}' not found in metadata of '{cond}'"
+                    )
 
     # ─── Exposed Properties ───────────────────────────────────────────
 
@@ -120,23 +135,27 @@ class BuDDI4Data:
     @property
     def ct_column(self):
         return self._ct_column
-    
+
     @property
     def nx(self):
         """Number of features (genes) in the data."""
         return self.__nx
+
     @property
     def ny(self):
         """Number of features (cell types) in the data."""
         return self.__ny
+
     @property
     def n_labels(self):
         """Number of sample labels in the data."""
         return self.__n_labels
+
     @property
     def n_stims(self):
         """Number of stimulation conditions in the data."""
         return self.__n_stims
+
     @property
     def n_samp_types(self):
         """Number of sample types in the data."""
@@ -155,9 +174,7 @@ class BuDDI4Data:
 
         counts = []
         for cond, _ in self.data.items():
-            counts.append(
-                int(self._selection[cond].sum())
-            )
+            counts.append(int(self._selection[cond].sum()))
 
         total = sum(counts)
 
@@ -171,7 +188,7 @@ class BuDDI4Data:
         """
         self._selection = {}
         for cond, entries in self.data.items():
-            n = len(entries['X'])
+            n = len(entries["X"])
             self._selection[cond] = np.ones(n, dtype=bool)
         return self
 
@@ -198,25 +215,29 @@ class BuDDI4Data:
                 self._stim_column,
                 self._samp_type_column,
                 self._split_column,
-                self._ct_column
+                self._ct_column,
             ]:
                 raise KeyError(f"Filter '{key}' is not a valid metadata column")
-            values = val if isinstance(val, (list, tuple, set, np.ndarray, pd.Series)) else [val]
+            values = (
+                val
+                if isinstance(val, (list, tuple, set, np.ndarray, pd.Series))
+                else [val]
+            )
             # gather all unique values across both conditions
             all_vals = set()
             for cond in self.data:
-                df = self.data[cond]['meta']
+                df = self.data[cond]["meta"]
                 all_vals.update(df[key].unique().tolist())
             missing = set(values) - all_vals
             if missing:
                 warnings.warn(
                     f"Filter value(s) {missing} for column '{key}' not found in any metadata",
-                    UserWarning
+                    UserWarning,
                 )
 
         # apply filtering: set selection for each condition
         for cond in self.data:
-            df = self.data[cond]['meta']
+            df = self.data[cond]["meta"]
             if cond in conds:
                 mask = pd.Series(True, index=df.index)
                 for key, val in filters.items():
@@ -234,14 +255,13 @@ class BuDDI4Data:
 
     # ─── Data Retrieval ───────────────────────────────────────────
 
-    def get(self, 
-            keys: List[str] = [
-                'X', 'Y', 'label', 'stim', 'samp_type', 'meta'
-                ],
-            n_samples: Optional[int] = None,
-            replace: bool = False,
-            random_state: Optional[int] = None,
-        ):
+    def get(
+        self,
+        keys: List[str] = ["X", "Y", "label", "stim", "samp_type", "meta"],
+        n_samples: Optional[int] = None,
+        replace: bool = False,
+        random_state: Optional[int] = None,
+    ):
         """
         Retrieve data arrays or DataFrames for current selection.
 
@@ -276,34 +296,32 @@ class BuDDI4Data:
         results_sampled = []
         if n_samples is not None:
             if n_samples > len(self) and not replace:
-                raise ValueError(f"Cannot sample {n_samples} samples from {len(self)} total samples")
+                raise ValueError(
+                    f"Cannot sample {n_samples} samples from {len(self)} total samples"
+                )
             if n_samples <= 0:
-                raise ValueError(f"n_samples must be positive, got {n_samples}")            
+                raise ValueError(f"n_samples must be positive, got {n_samples}")
             if random_state is not None:
                 rng = np.random.RandomState(random_state)
             else:
                 rng = np.random.default_rng()
 
             idx = np.arange(len(results[0]))
-            idx_sample = rng.choice(
-                idx,
-                size=n_samples,
-                replace=replace
-            )
-                
+            idx_sample = rng.choice(idx, size=n_samples, replace=replace)
+
             for result in results:
                 if isinstance(result, pd.DataFrame):
                     results_sampled.append(
                         result.iloc[idx_sample].reset_index(drop=True)
                     )
                 else:
-                    results_sampled.append(
-                        result[idx_sample]
-                    )
+                    results_sampled.append(result[idx_sample])
         else:
             results_sampled = results
-        
-        return results_sampled[0] if len(results_sampled) == 1 else tuple(results_sampled)
+
+        return (
+            results_sampled[0] if len(results_sampled) == 1 else tuple(results_sampled)
+        )
 
     # ─── Filter value hint function ───────────────────────────────────────────
 
@@ -315,7 +333,13 @@ class BuDDI4Data:
         :param conditions: condition or list (default all).
         :returns: sorted list of unique values.
         """
-        if column not in [self._sample_column, self._stim_column, self._samp_type_column, self._split_column, self._ct_column]:
+        if column not in [
+            self._sample_column,
+            self._stim_column,
+            self._samp_type_column,
+            self._split_column,
+            self._ct_column,
+        ]:
             raise KeyError(f"Column '{column}' is not a valid metadata column")
         if conditions is None:
             conds = list(self.data.keys())
@@ -323,28 +347,28 @@ class BuDDI4Data:
             conds = [conditions] if isinstance(conditions, str) else conditions
         values = set()
         for cond in conds:
-            df = self.data[cond]['meta']
+            df = self.data[cond]["meta"]
             if column not in df.columns:
                 raise KeyError(f"Column '{column}' not found in metadata of '{cond}'")
             values.update(df[column].unique().tolist())
         return sorted(values)
-    
+
     # ─── Plotting ───────────────────────────────────────────
     def plot(
-            self,
-            color_by: Optional[List[str]]=None,
-            filters: Optional[Dict]=None,
-            **kwargs,
-        ):
+        self,
+        color_by: Optional[List[str]] = None,
+        filters: Optional[Dict] = None,
+        **kwargs,
+    ):
         """
         Plot the data using the plot_data function.
         """
         # Get the data
         if filters is not None:
-            X, meta = self.query(**filters).get(['X', 'meta'])
+            X, meta = self.query(**filters).get(["X", "meta"])
         else:
-            X, meta = self.reset_query().get(['X', 'meta'])
-        
+            X, meta = self.reset_query().get(["X", "meta"])
+
         if color_by is None:
             # default color_by plots all metadata columns
             color_by = [
@@ -352,19 +376,12 @@ class BuDDI4Data:
                 self._samp_type_column,
                 self._stim_column,
                 self._split_column,
-                self._ct_column
+                self._ct_column,
             ]
-        color_by = [
-            col for col in color_by if col in meta.columns
-        ]
+        color_by = [col for col in color_by if col in meta.columns]
 
         if len(color_by) == 0:
             raise ValueError("No valid columns found in color_by")
 
         # Call the plot_data function
-        plot_data(
-            X=X,
-            meta=meta,
-            color_by=color_by,
-            **kwargs
-        )
+        plot_data(X=X, meta=meta, color_by=color_by, **kwargs)
