@@ -1,0 +1,20 @@
+buddi\_v2.data
+==============
+
+.. automodule:: buddi_v2.data
+
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      BuDDI4Data
+      BuDDINData
+   
+.. rubric:: Modules
+
+.. autosummary::
+   :toctree:
+   :recursive:
+
+   buddi4data

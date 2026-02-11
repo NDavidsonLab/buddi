@@ -1,0 +1,18 @@
+buddi\_v2.models.fit
+====================
+
+.. automodule:: buddi_v2.models.fit
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      fit_buddi
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      tqdm
+   

@@ -1,0 +1,12 @@
+buddi\_v2.plotting.plot\_loss
+=============================
+
+.. automodule:: buddi_v2.plotting.plot_loss
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      plot_loss
+   

@@ -1,0 +1,16 @@
+﻿buddi\_v2
+=========
+
+.. automodule:: buddi_v2
+
+   
+.. rubric:: Modules
+
+.. autosummary::
+   :toctree:
+   :recursive:
+
+   data
+   dataset
+   models
+   plotting

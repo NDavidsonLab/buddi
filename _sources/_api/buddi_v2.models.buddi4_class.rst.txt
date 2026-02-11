@@ -1,0 +1,13 @@
+buddi\_v2.models.buddi4\_class
+==============================
+
+.. automodule:: buddi_v2.models.buddi4_class
+
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      BuDDI4
+      BuDDIAbstract
+   
