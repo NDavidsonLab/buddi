@@ -87,7 +87,7 @@ ini_options.markers = [
 
 [tool.poe]
 tasks.install-kernel = "python -m ipykernel install --user --name buddi-v2 --display-name 'Python (buddi-v2)'"
-tasks.run-notebooks = "python -m jupyter lab examples/"
+tasks.run-notebooks = "python -m jupyter lab /"
 tasks.buddi-lab = [
   "install-kernel",
   "run-notebooks",
