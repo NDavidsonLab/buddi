@@ -44,6 +44,7 @@ optional-dependencies.notebooks = [
   "joblib>=1",
   "jupyterlab>=3",
   "jupyterlab-widgets>=3.0.16",
+  "jupytext>=1.19.1",
   "matplotlib-venn>=0.11",
   "scanpy>=1.9",
   "scipy>=1.5",
@@ -78,7 +79,8 @@ packages.find.include = [ "buddi_v2*" ]
 default-groups = [ "dev", "docs" ]
 
 [tool.ruff]
-extend-exclude = [ "*.ipynb" ]
+extend-exclude = [ "*.ipynb", "examples/**/*.py" ]
+force-exclude = true
 
 [tool.pytest]
 ini_options.testpaths = [ "tests" ]
@@ -108,3 +110,6 @@ xargs -n 1 -I {} python -m papermill {} examples_output/{} --kernel buddi-v2
 min_confidence = 90
 paths = [ "src/buddi_v2", "tests" ]
 ignore_names = [ "training", "n_bulks", "n_cells" ]
+
+[tool.jupytext]
+formats = [ "examples///ipynb", "examples///py:percent" ]
