@@ -14,4 +14,5 @@ buddi\_v2.models
    buddi4
    buddi4_class
    buddi_abstract_class
+   components
    fit

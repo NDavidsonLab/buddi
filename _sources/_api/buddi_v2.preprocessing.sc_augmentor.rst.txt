@@ -1,0 +1,19 @@
+buddi\_v2.preprocessing.sc\_augmentor
+=====================================
+
+.. automodule:: buddi_v2.preprocessing.sc_augmentor
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      load_sc_augmentation_dir
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      Path
+      SCAugmentor
+   

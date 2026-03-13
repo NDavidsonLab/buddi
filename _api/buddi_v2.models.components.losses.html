@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>buddi_v2.models.buddi4_class &#8212; buddi_v2  documentation</title>
+    <title>buddi_v2.models.components.losses &#8212; buddi_v2  documentation</title>
   
   
   
@@ -42,11 +42,11 @@
     <script src="../_static/documentation_options.js?v=5929fcd5"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = '_api/buddi_v2.models.buddi4_class';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_api/buddi_v2.models.components.losses';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="buddi_v2.models.buddi_abstract_class" href="buddi_v2.models.buddi_abstract_class.html" />
-    <link rel="prev" title="buddi_v2.models.buddi4" href="buddi_v2.models.buddi4.html" />
+    <link rel="next" title="buddi_v2.models.components.wrapped_branches" href="buddi_v2.models.components.wrapped_branches.html" />
+    <link rel="prev" title="buddi_v2.models.components.layers" href="buddi_v2.models.components.layers.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -285,12 +285,12 @@
 <li class="toctree-l2 current active has-children"><a class="reference internal" href="buddi_v2.models.html">buddi_v2.models</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="buddi_v2.models.buddi3_class.html">buddi_v2.models.buddi3_class</a></li>
 <li class="toctree-l3"><a class="reference internal" href="buddi_v2.models.buddi4.html">buddi_v2.models.buddi4</a></li>
-<li class="toctree-l3 current active"><a class="current reference internal" href="#">buddi_v2.models.buddi4_class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="buddi_v2.models.buddi4_class.html">buddi_v2.models.buddi4_class</a></li>
 <li class="toctree-l3"><a class="reference internal" href="buddi_v2.models.buddi_abstract_class.html">buddi_v2.models.buddi_abstract_class</a></li>
-<li class="toctree-l3 has-children"><a class="reference internal" href="buddi_v2.models.components.html">buddi_v2.models.components</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 current active has-children"><a class="reference internal" href="buddi_v2.models.components.html">buddi_v2.models.components</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="buddi_v2.models.components.branches.html">buddi_v2.models.components.branches</a></li>
 <li class="toctree-l4"><a class="reference internal" href="buddi_v2.models.components.layers.html">buddi_v2.models.components.layers</a></li>
-<li class="toctree-l4"><a class="reference internal" href="buddi_v2.models.components.losses.html">buddi_v2.models.components.losses</a></li>
+<li class="toctree-l4 current active"><a class="current reference internal" href="#">buddi_v2.models.components.losses</a></li>
 <li class="toctree-l4"><a class="reference internal" href="buddi_v2.models.components.wrapped_branches.html">buddi_v2.models.components.wrapped_branches</a></li>
 </ul>
 </details></li>
@@ -359,7 +359,10 @@
     
     <li class="breadcrumb-item"><a href="buddi_v2.models.html" class="nav-link">buddi_v2.models</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">buddi_v2.models.buddi4_class</span></li>
+    
+    <li class="breadcrumb-item"><a href="buddi_v2.models.components.html" class="nav-link">buddi_v2.models.components</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">buddi_v2.models.components.losses</span></li>
   </ul>
 </nav>
 </div>
@@ -376,16 +379,37 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="module-buddi_v2.models.buddi4_class">
-<span id="buddi-v2-models-buddi4-class"></span><h1>buddi_v2.models.buddi4_class<a class="headerlink" href="#module-buddi_v2.models.buddi4_class" title="Link to this heading">#</a></h1>
+  <section id="module-buddi_v2.models.components.losses">
+<span id="buddi-v2-models-components-losses"></span><h1>buddi_v2.models.components.losses<a class="headerlink" href="#module-buddi_v2.models.components.losses" title="Link to this heading">#</a></h1>
+<p class="rubric">Functions</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">classifier_loss_generator</span></code>([weight, loss_fn, ...])</p></td>
+<td><p>Classifier loss function generator.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">kl_loss</span></code>(y_true, y_pred)</p></td>
+<td><p>KL divergence loss function.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">kl_loss_generator</span></code>([beta, agg_fn])</p></td>
+<td><p>KL divergence loss function generator.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">reconstr_loss_generator</span></code>([weight, ...])</p></td>
+<td><p>Reconstruction loss function generator.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">unsupervised_dummy_loss_fn</span></code>(y_true, y_pred)</p></td>
+<td><p>Dummy loss function for unsupervised branch proportion estimator.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
 <p class="rubric">Classes</p>
 <div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">BuDDI4</span></code>(n_x, n_y[, z_dim, ...])</p></td>
-<td><p>BuDDI4 class for building and training the BuDDI4 model.</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">CategoricalCrossentropy</span></code>([from_logits, ...])</p></td>
+<td><p>Computes the crossentropy loss between the labels and predictions.</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">BuDDIAbstract</span></code>(n_x, n_y[, z_dim, ...])</p></td>
-<td><p>Abstract class for BuDDI models.</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">MeanSquaredError</span></code>([reduction, name, dtype])</p></td>
+<td><p>Computes the mean of squares of errors between labels and predictions.</p></td>
 </tr>
 </tbody>
 </table>
@@ -403,20 +427,20 @@
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="buddi_v2.models.buddi4.html"
+       href="buddi_v2.models.components.layers.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">buddi_v2.models.buddi4</p>
+        <p class="prev-next-title">buddi_v2.models.components.layers</p>
       </div>
     </a>
     <a class="right-next"
-       href="buddi_v2.models.buddi_abstract_class.html"
+       href="buddi_v2.models.components.wrapped_branches.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">buddi_v2.models.buddi_abstract_class</p>
+        <p class="prev-next-title">buddi_v2.models.components.wrapped_branches</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -435,7 +459,7 @@
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/_api/buddi_v2.models.buddi4_class.rst.txt"
+      <li><a href="../_sources/_api/buddi_v2.models.components.losses.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div></div>
