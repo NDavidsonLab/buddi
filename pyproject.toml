@@ -79,7 +79,8 @@ packages.find.include = [ "buddi_v2*" ]
 default-groups = [ "dev", "docs" ]
 
 [tool.ruff]
-extend-exclude = [ "*.ipynb" ]
+extend-exclude = [ "*.ipynb", "examples/**/*.py" ]
+force-exclude = true
 
 [tool.pytest]
 ini_options.testpaths = [ "tests" ]
