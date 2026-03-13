@@ -59,6 +59,7 @@ optional-dependencies.with-gpu = [
 
 [dependency-groups]
 dev = [
+  "papermill>=2.5",
   "pytest>=8.4.2",
 ]
 docs = [
@@ -79,6 +80,9 @@ version_scheme = "no-guess-dev"
 local_scheme = "no-local-version"
 version_file = "src/buddi_v2/_version.py"
 
+[tool.uv]
+default-groups = [ "dev", "docs" ]
+
 [tool.ruff]
 extend-exclude = [ "*.ipynb" ]
 
@@ -93,11 +97,18 @@ ini_options.markers = [
 
 [tool.poe]
 tasks.install-kernel = "python -m ipykernel install --user --name buddi-v2 --display-name 'Python (buddi-v2)'"
-tasks.run-notebooks = "python -m jupyter lab examples/"
+tasks.run-notebooks = "python -m jupyter lab /"
+tasks.test-notebooks = "time python -m pytest tests/test_notebooks.py -v --durations=0 --run-slow"
 tasks.buddi-lab = [
   "install-kernel",
   "run-notebooks",
 ]
+tasks.run-notebooks-papermill.help = "Run example notebooks with papermill, outputting to examples_output/ and using the buddi-v2 kernel"
+tasks.run-notebooks-papermill.shell = """
+mkdir -p examples_output/example_buddi3/ examples_output/example_buddi4/ ;
+find . -name 'examples/*.ipynb' -not -path '*/.ipynb_checkpoints/*' | \
+xargs -n 1 -I {} python -m papermill {} examples_output/{} --kernel buddi-v2
+"""
 
 [tool.vulture]
 min_confidence = 90
