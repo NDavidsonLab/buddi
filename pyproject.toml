@@ -3,7 +3,7 @@ build-backend = "setuptools.build_meta"
 requires = [ "setuptools>=61", "setuptools-scm>=8", "wheel" ]
 
 [project]
-name = "buddi-v2"
+name = "buddi"
 description = "BuDDI: Bulk Deconvolution with Domain Invariance to predict cell-type-specific perturbations from bulk"
 readme = "README.md"
 maintainers = [
@@ -96,18 +96,18 @@ ini_options.markers = [
 ]
 
 [tool.poe]
-tasks.install-kernel = "python -m ipykernel install --user --name buddi-v2 --display-name 'Python (buddi-v2)'"
+tasks.install-kernel = "python -m ipykernel install --user --name buddi --display-name 'Python (buddi)'"
 tasks.run-notebooks = "python -m jupyter lab /"
 tasks.test-notebooks = "time python -m pytest tests/test_notebooks.py -v --durations=0 --run-slow"
 tasks.buddi-lab = [
   "install-kernel",
   "run-notebooks",
 ]
-tasks.run-notebooks-papermill.help = "Run example notebooks with papermill, outputting to examples_output/ and using the buddi-v2 kernel"
+tasks.run-notebooks-papermill.help = "Run example notebooks with papermill, outputting to examples_output/ and using the buddi kernel"
 tasks.run-notebooks-papermill.shell = """
 mkdir -p examples_output/example_buddi3/ examples_output/example_buddi4/ ;
 find . -name 'examples/*.ipynb' -not -path '*/.ipynb_checkpoints/*' | \
-xargs -n 1 -I {} python -m papermill {} examples_output/{} --kernel buddi-v2
+xargs -n 1 -I {} python -m papermill {} examples_output/{} --kernel buddi
 """
 
 [tool.vulture]

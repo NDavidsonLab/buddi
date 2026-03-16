@@ -31,7 +31,7 @@ def get_example_notebooks() -> List[Path]:
 
 def run_notebook_with_papermill(
     notebook_path: Path,
-    kernel_name: str = "buddi-v2",
+    kernel_name: str = "buddi",
 ) -> bool:
     """
     Run a notebook using papermill in a headless manner.

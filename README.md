@@ -45,7 +45,7 @@ apt-get install pip install typing-extensions --upgrade
 Second, you will install BuDDI from github using pip. It is recommended that you install this into a virtual env that you can activate before running the provided analysis scripts or your own BuDDI experiments.
 
 ```bash
-pip install git+https://github.com/NDavidsonLab/buddi_v2.git#egg=buddi_v2[notebooks]
+pip install git+https://github.com/NDavidsonLab/buddi.git#egg=buddi[notebooks]
 ```
 
 ### Using the Example Notebooks
@@ -62,7 +62,7 @@ Alternatively, in the virtualenv in which you've installed BuDDI, you can create
 a kernel for the current venv and then start Jupyter Lab with the following command:
 
 ```bash
-python -m ipykernel install --user --name buddi-v2 --display-name "Python (buddi-v2)"
+python -m ipykernel install --user --name buddi --display-name "Python (buddi)"
 python -m jupyter lab examples/
 ```
 
