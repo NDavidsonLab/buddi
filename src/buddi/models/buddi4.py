@@ -427,8 +427,8 @@ def fit_buddi4(
 
     :param supervised_model: Supervised BUDDI model from `build_buddi4`
     :param unsupervised_model: Unsupervised BUDDI model from `build_buddi4`
-    :param dataset_supervised: Supervised dataset from `buddi_v2.dataset.buddi4_dataset.get_supervised_dataset`
-    :param dataset_unsupervised: Unsupervised dataset from `buddi_v2.dataset.buddi4_dataset.get_unsupervised_dataset`
+    :param dataset_supervised: Supervised dataset from `buddi.dataset.buddi4_dataset.get_supervised_dataset`
+    :param dataset_unsupervised: Unsupervised dataset from `buddi.dataset.buddi4_dataset.get_unsupervised_dataset`
     :param epochs: Number of epochs to train the model
     :param batch_size: Batch size for training
     :param shuffle_every_epoch: Whether to shuffle the dataset every epoch

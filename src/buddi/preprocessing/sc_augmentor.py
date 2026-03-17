@@ -11,8 +11,7 @@ import numpy as np
 import pandas as pd
 import anndata as ad
 
-# from .. import preprocessing
-from buddi_v2 import preprocessing
+from buddi import preprocessing
 
 # -----------------------------------------------------------------------------
 # Helper type aliases

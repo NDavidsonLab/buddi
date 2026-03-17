@@ -19,7 +19,7 @@ sys.path.insert(0, basedir)
 
 # -- Project information -----------------------------------------------------
 
-project = "buddi_v2"
+project = "buddi"
 # is used here due to sphinx decision-making: https://github.com/sphinx-doc/sphinx/issues/8132
 copyright = "2024, NDavidsonLab"  # noqa: A001
 author = "NDavidsonLab"
@@ -61,7 +61,7 @@ html_theme_options = {
             "icon": "fa-brands fa-github",
         },
     ],
-    "logo": {"text": "buddi_v2"},
+    "logo": {"text": "buddi"},
     "use_edit_page_button": False,
     "show_toc_level": 1,
     "navbar_align": "left",

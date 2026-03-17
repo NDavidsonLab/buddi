@@ -48,8 +48,8 @@ Pseudobulks can be generated from the following workflows:
 0. **Pre-requisite** imports and generating `cell_df`
 
 ```python
-from buddi_v2.preprocessing import utils
-from buddi_v2.preprocessing import generate_pseudo_bulks
+from buddi.preprocessing import utils
+from buddi.preprocessing import generate_pseudo_bulks
 
 # processed, annotated adata (multiple sample)
 adata = sc.read_h5ad("PATH/TO/H5AD")

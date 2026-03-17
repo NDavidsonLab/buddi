@@ -2,7 +2,7 @@
 # Visit https://bit.ly/cffinit to generate yours today!
 ---
 cff-version: 1.2.0
-title: buddi_v2
+title: buddi
 message: >-
   If you use this software, please cite it using the
   metadata from the CITATION.cff file.
@@ -20,7 +20,7 @@ authors:
   - given-names: Natalie
     family-names: Davidson
     orcid: 'https://orcid.org/0000-0002-1745-8072'
-repository-code: "https://github.com/NDavidsonLab/buddi_v2"
+repository-code: "https://github.com/NDavidsonLab/buddi"
 abstract: |
   This is a refactored version of the original BuDDI model—rewritten enough that it felt better to make it a separate repo instead of a fork.
   BuDDI v2 also fully switches over to TensorFlow 2 (the original was TF1), so the v2 numbering also fits nicely.

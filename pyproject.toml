@@ -72,13 +72,13 @@ docs = [
 [tool.setuptools]
 package-dir = { "" = "src" }
 packages.find.where = [ "src" ]
-packages.find.include = [ "buddi_v2*" ]
+packages.find.include = [ "buddi*" ]
 
 [tool.setuptools_scm]
 root = "."
 version_scheme = "no-guess-dev"
 local_scheme = "no-local-version"
-version_file = "src/buddi_v2/_version.py"
+version_file = "src/buddi/_version.py"
 
 [tool.uv]
 default-groups = [ "dev", "docs" ]
@@ -112,5 +112,5 @@ xargs -n 1 -I {} python -m papermill {} examples_output/{} --kernel buddi
 
 [tool.vulture]
 min_confidence = 90
-paths = [ "src/buddi_v2", "tests" ]
+paths = [ "src/buddi", "tests" ]
 ignore_names = [ "training", "n_bulks", "n_cells" ]
