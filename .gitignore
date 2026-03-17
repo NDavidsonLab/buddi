@@ -187,3 +187,4 @@ src/buddi_v2/_version.py
 
 # sphinx autodoc stuff
 docs/src/_api
+src/buddi/_version.py
