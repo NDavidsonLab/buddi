@@ -97,14 +97,19 @@ ini_options.markers = [
 
 [tool.poe]
 tasks.install-kernel = "python -m ipykernel install --user --name buddi --display-name 'Python (buddi)'"
-tasks.run-notebooks = "python -m jupyter lab /"
-tasks.test-notebooks = "time python -m pytest tests/test_notebooks.py -v --durations=0 --run-slow"
+tasks.run-notebooks.shell = "export REPO_ROOT=$( realpath . ) ; python -m jupyter lab ./"
+tasks.run-nb-notebooks.shell = "export REPO_ROOT=$( realpath . ) ; time python -m pytest tests/test_notebooks.py -v --durations=0 --run-slow"
+tasks.test-notebooks = [
+  "install-kernel",
+  "run-nb-notebooks",
+]
 tasks.buddi-lab = [
   "install-kernel",
   "run-notebooks",
 ]
 tasks.run-notebooks-papermill.help = "Run example notebooks with papermill, outputting to examples_output/ and using the buddi kernel"
 tasks.run-notebooks-papermill.shell = """
+export REPO_ROOT=$( realpath . ) ;
 mkdir -p examples_output/example_buddi3/ examples_output/example_buddi4/ ;
 find . -name 'examples/*.ipynb' -not -path '*/.ipynb_checkpoints/*' | \
 xargs -n 1 -I {} python -m papermill {} examples_output/{} --kernel buddi
