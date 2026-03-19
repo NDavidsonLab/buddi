@@ -71,7 +71,7 @@ See examples for more details
 
 ```python
 import numpy as np
-from buddi_v2.dataset.buddi4_dataset import get_supervised_dataset, get_unsupervised_dataset
+from buddi.dataset.buddi4_dataset import get_supervised_dataset, get_unsupervised_dataset
 
 ## prepare and format data as numpy 2d arrays for the supervised module
 n_samples = 10000

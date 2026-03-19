@@ -183,9 +183,9 @@ Class version
 from tensorflow.keras.losses import CategoricalCrossentropy, MeanAbsoluteError
 from tensorflow.keras.optimizers import Adam
 
-from buddi_v2.models.components.losses import kl_loss
-from buddi_v2.models.fit import fit_buddi
-from buddi_v2.models.buddi4_class import BuDDI4
+from buddi.models.components.losses import kl_loss
+from buddi.models.fit import fit_buddi
+from buddi.models.buddi4_class import BuDDI4
 
 # See module `dataset` for details in dataset construction
 dataset_supervised = ...
@@ -256,7 +256,7 @@ loss_df = fit_buddi(
 Legacy Function version
 
 ```python
-from buddi_v2.models.buddi4 import build_buddi4, fit_buddi4
+from buddi.models.buddi4 import build_buddi4, fit_buddi4
 
 # See module `dataset` for details in dataset construction
 dataset_supervised = ...

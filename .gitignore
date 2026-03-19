@@ -184,3 +184,5 @@ cython_debug/
 
 # sphinx autodoc stuff
 docs/src/_api
+# ignore ephemeral versioning file for packaging
+src/buddi/_version.py

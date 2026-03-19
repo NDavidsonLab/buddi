@@ -1,4 +1,4 @@
-# BuDDI v2
+# BuDDI
 
 This repository contains all the model code used in [**BuDDI: Bulk Deconvolution with Domain Invariance to predict cell-type-specific perturbations from bulk**](https://www.biorxiv.org/content/10.1101/2023.07.20.549951v1)
 
@@ -12,7 +12,7 @@ This creates a situation where we have deep cellular profiles of one sample or c
 A schematic of what BuDDi's methodological goal is shown below:
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/NDavidsonLab/buddi_v2/refs/heads/main/buddi_goal.png" width="50%" height="50%">
+<img src="https://raw.githubusercontent.com/NDavidsonLab/buddi/refs/heads/main/buddi_goal.png" width="50%" height="50%">
 </p>
 
 **To bridge this gap, we propose BuDDI (BUlk Deconvolution with Domain Invariance).**
@@ -45,12 +45,12 @@ apt-get install pip install typing-extensions --upgrade
 Second, you will install BuDDI from github using pip. It is recommended that you install this into a virtual env that you can activate before running the provided analysis scripts or your own BuDDI experiments.
 
 ```bash
-pip install git+https://github.com/NDavidsonLab/buddi_v2.git#egg=buddi_v2[notebooks]
+pip install git+https://github.com/NDavidsonLab/buddi.git#egg=buddi[notebooks]
 ```
 
 ### Using the Example Notebooks
 
-Once you've installed BuDDI v2 with the `[notebooks]` extra, you can run the example notebooks provided in the `examples/` directory.
+Once you've installed BuDDI with the `[notebooks]` extra, you can run the example notebooks provided in the `examples/` directory.
 
 You can use the helper task `buddi-lab`, added via [Poe the Poet](https://poethepoet.natn.io/index.html), to start it.
 
@@ -62,7 +62,7 @@ Alternatively, in the virtualenv in which you've installed BuDDI, you can create
 a kernel for the current venv and then start Jupyter Lab with the following command:
 
 ```bash
-python -m ipykernel install --user --name buddi-v2 --display-name "Python (buddi-v2)"
+python -m ipykernel install --user --name buddi --display-name "Python (buddi)"
 python -m jupyter lab examples/
 ```
 
@@ -73,11 +73,11 @@ See the [tutorial](https://github.com/greenelab/buddi_analysis) for detailed ins
 To import BuDDI and its helper methods within your Python code, simply add the following
 
 ```python
-from buddi_v2 import buddi
-from buddi_v2.preprocessing import sc_preprocess
-from buddi_v2.plotting import validation_plotting as vp
+import buddi
+from buddi.preprocessing import sc_preprocess
+from buddi.plotting import validation_plotting as vp
 ```
 
-## Why it's "v2"
+## Package Naming
 
-This is a refactored version of the original BuDDI model—rewritten enough that it felt better to make it a separate repo instead of a fork. BuDDI v2 also fully switches over to TensorFlow 2 (the original was TF1), so the v2 numbering also fits nicely.
+The package is published as `buddi`, and the source tree now lives under `src/buddi`.

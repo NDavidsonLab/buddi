@@ -5,5 +5,5 @@
    :toctree: _api
    :recursive:
 
-   buddi_v2
+   buddi
 ```

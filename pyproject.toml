@@ -1,10 +1,9 @@
 [build-system]
 build-backend = "setuptools.build_meta"
-requires = [ "setuptools>=61", "wheel" ]
+requires = [ "setuptools>=61", "setuptools-scm>=8", "wheel" ]
 
 [project]
-name = "buddi-v2"
-version = "0.1.0"
+name = "buddi"
 description = "BuDDI: Bulk Deconvolution with Domain Invariance to predict cell-type-specific perturbations from bulk"
 readme = "README.md"
 maintainers = [
@@ -21,6 +20,7 @@ classifiers = [
   "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
 ]
+dynamic = [ "version" ]
 dependencies = [
   "anndata>=0.10.9",
   "ipython>=8.18.1",
@@ -72,7 +72,13 @@ docs = [
 [tool.setuptools]
 package-dir = { "" = "src" }
 packages.find.where = [ "src" ]
-packages.find.include = [ "buddi_v2*" ]
+packages.find.include = [ "buddi*" ]
+
+[tool.setuptools_scm]
+root = "."
+version_scheme = "no-guess-dev"
+local_scheme = "no-local-version"
+version_file = "src/buddi/_version.py"
 
 [tool.uv]
 default-groups = [ "dev", "docs" ]
@@ -90,21 +96,26 @@ ini_options.markers = [
 ]
 
 [tool.poe]
-tasks.install-kernel = "python -m ipykernel install --user --name buddi-v2 --display-name 'Python (buddi-v2)'"
-tasks.run-notebooks = "python -m jupyter lab /"
-tasks.test-notebooks = "time python -m pytest tests/test_notebooks.py -v --durations=0 --run-slow"
+tasks.install-kernel = "python -m ipykernel install --user --name buddi --display-name 'Python (buddi)'"
+tasks.run-notebooks.shell = "export REPO_ROOT=$( realpath ${POE_ROOT} ) ; python -m jupyter lab ./"
+tasks.run-nb-notebooks.shell = "export REPO_ROOT=$( realpath ${POE_ROOT} ) ; time python -m pytest tests/test_notebooks.py -v --durations=0 --run-slow"
+tasks.test-notebooks = [
+  "install-kernel",
+  "run-nb-notebooks",
+]
 tasks.buddi-lab = [
   "install-kernel",
   "run-notebooks",
 ]
-tasks.run-notebooks-papermill.help = "Run example notebooks with papermill, outputting to examples_output/ and using the buddi-v2 kernel"
+tasks.run-notebooks-papermill.help = "Run example notebooks with papermill, outputting to examples_output/ and using the buddi kernel"
 tasks.run-notebooks-papermill.shell = """
+export REPO_ROOT=$( realpath ${POE_ROOT} ) ;
 mkdir -p examples_output/example_buddi3/ examples_output/example_buddi4/ ;
 find . -name 'examples/*.ipynb' -not -path '*/.ipynb_checkpoints/*' | \
-xargs -n 1 -I {} python -m papermill {} examples_output/{} --kernel buddi-v2
+xargs -n 1 -I {} python -m papermill {} examples_output/{} --kernel buddi
 """
 
 [tool.vulture]
 min_confidence = 90
-paths = [ "src/buddi_v2", "tests" ]
+paths = [ "src/buddi", "tests" ]
 ignore_names = [ "training", "n_bulks", "n_cells" ]
