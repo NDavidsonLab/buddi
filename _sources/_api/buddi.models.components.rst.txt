@@ -1,0 +1,16 @@
+buddi.models.components
+=======================
+
+.. automodule:: buddi.models.components
+
+   
+.. rubric:: Modules
+
+.. autosummary::
+   :toctree:
+   :recursive:
+
+   branches
+   layers
+   losses
+   wrapped_branches

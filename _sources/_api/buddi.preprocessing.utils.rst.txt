@@ -1,0 +1,33 @@
+buddi.preprocessing.utils
+=========================
+
+.. automodule:: buddi.preprocessing.utils
+
+   
+   .. rubric:: Module Attributes
+
+   .. autosummary::
+   
+      CellDf
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      apply_sample_wise_noise
+      generate_counts_from_props
+      generate_log_normal_counts
+      generate_prop_from_counts
+      generate_random_similar_props
+      generate_single_celltype_dominant_props
+      generate_true_counts
+      get_cell_type_sum
+      get_true_proportions
+      subset_adata_by_cell_type
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      AnnData
+   

@@ -1,0 +1,14 @@
+buddi.dataset.buddi3\_dataset
+=============================
+
+.. automodule:: buddi.dataset.buddi3_dataset
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      get_dataset
+      get_supervised_dataset
+      get_unsupervised_dataset
+   

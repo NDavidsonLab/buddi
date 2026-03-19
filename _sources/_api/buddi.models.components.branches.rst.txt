@@ -1,0 +1,26 @@
+buddi.models.components.branches
+================================
+
+.. automodule:: buddi.models.components.branches
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      Input
+      build_decoder_branch
+      build_encoder_branch
+      build_latent_space_classifier
+      build_prop_estimator
+      build_semi_supervised_decoder
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      Concatenate
+      Dense
+      Model
+      ReLU
+   

@@ -1,0 +1,20 @@
+buddi.preprocessing.generate\_pseudo\_bulks
+===========================================
+
+.. automodule:: buddi.preprocessing.generate_pseudo_bulks
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      generate_pseudo_bulk_from_counts
+      generate_pseudo_bulk_from_props
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      AnnData
+      tqdm
+   

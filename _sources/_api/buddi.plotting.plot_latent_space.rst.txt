@@ -1,0 +1,21 @@
+buddi.plotting.plot\_latent\_space
+==================================
+
+.. automodule:: buddi.plotting.plot_latent_space
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      plot_latent_spaces_buddi
+      plot_latent_spaces_buddi4
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      PCA
+      TSNE
+      UMAP
+   

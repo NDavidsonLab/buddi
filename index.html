@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>BuDDI v2 &#8212; buddi_v2  documentation</title>
+    <title>BuDDI &#8212; buddi  documentation</title>
   
   
   
@@ -110,7 +110,7 @@
   
   
   
-    <p class="title logo__title">buddi_v2</p>
+    <p class="title logo__title">buddi</p>
   
 </a></div>
     
@@ -290,8 +290,8 @@
                 <article class="bd-article">
                   
   <!-- include contents from the root readme -->
-<section id="buddi-v2">
-<h1>BuDDI v2<a class="headerlink" href="#buddi-v2" title="Link to this heading">#</a></h1>
+<section id="buddi">
+<h1>BuDDI<a class="headerlink" href="#buddi" title="Link to this heading">#</a></h1>
 <p>This repository contains all the model code used in <a class="reference external" href="https://www.biorxiv.org/content/10.1101/2023.07.20.549951v1"><strong>BuDDI: Bulk Deconvolution with Domain Invariance to predict cell-type-specific perturbations from bulk</strong></a></p>
 <p>You can find notebooks that exemplify how to use the library under <code class="docutils literal notranslate"><span class="pre">examples</span></code>.</p>
 <section id="overview">
@@ -300,7 +300,7 @@
 This creates a situation where we have deep cellular profiles of one sample or condition, and bulk profiles across multiple samples and conditions.</p>
 <p>A schematic of what BuDDi’s methodological goal is shown below:</p>
 <p align="center">
-<img src="https://raw.githubusercontent.com/NDavidsonLab/buddi_v2/refs/heads/main/buddi_goal.png" width="50%" height="50%">
+<img src="https://raw.githubusercontent.com/NDavidsonLab/buddi/refs/heads/main/buddi_goal.png" width="50%" height="50%">
 </p>
 <p><strong>To bridge this gap, we propose BuDDI (BUlk Deconvolution with Domain Invariance).</strong></p>
 <p>BuDDI utilizes domain adaptation techniques to effectively integrate available corpora of case-control bulk and reference scRNA-seq observations to infer cell-type-specific perturbation effects.
@@ -324,20 +324,20 @@ apt-get<span class="w"> </span>install<span class="w"> </span>pip<span class="w"
 </pre></div>
 </div>
 <p>Second, you will install BuDDI from github using pip. It is recommended that you install this into a virtual env that you can activate before running the provided analysis scripts or your own BuDDI experiments.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>git+https://github.com/NDavidsonLab/buddi_v2.git#egg<span class="o">=</span>buddi_v2<span class="o">[</span>notebooks<span class="o">]</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>git+https://github.com/NDavidsonLab/buddi.git#egg<span class="o">=</span>buddi<span class="o">[</span>notebooks<span class="o">]</span>
 </pre></div>
 </div>
 </section>
 <section id="using-the-example-notebooks">
 <h2>Using the Example Notebooks<a class="headerlink" href="#using-the-example-notebooks" title="Link to this heading">#</a></h2>
-<p>Once you’ve installed BuDDI v2 with the <code class="docutils literal notranslate"><span class="pre">[notebooks]</span></code> extra, you can run the example notebooks provided in the <code class="docutils literal notranslate"><span class="pre">examples/</span></code> directory.</p>
+<p>Once you’ve installed BuDDI with the <code class="docutils literal notranslate"><span class="pre">[notebooks]</span></code> extra, you can run the example notebooks provided in the <code class="docutils literal notranslate"><span class="pre">examples/</span></code> directory.</p>
 <p>You can use the helper task <code class="docutils literal notranslate"><span class="pre">buddi-lab</span></code>, added via <a class="reference external" href="https://poethepoet.natn.io/index.html">Poe the Poet</a>, to start it.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>poe<span class="w"> </span>buddi-lab
 </pre></div>
 </div>
 <p>Alternatively, in the virtualenv in which you’ve installed BuDDI, you can create
 a kernel for the current venv and then start Jupyter Lab with the following command:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>ipykernel<span class="w"> </span>install<span class="w"> </span>--user<span class="w"> </span>--name<span class="w"> </span>buddi-v2<span class="w"> </span>--display-name<span class="w"> </span><span class="s2">&quot;Python (buddi-v2)&quot;</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>ipykernel<span class="w"> </span>install<span class="w"> </span>--user<span class="w"> </span>--name<span class="w"> </span>buddi<span class="w"> </span>--display-name<span class="w"> </span><span class="s2">&quot;Python (buddi)&quot;</span>
 python<span class="w"> </span>-m<span class="w"> </span>jupyter<span class="w"> </span>lab<span class="w"> </span>examples/
 </pre></div>
 </div>
@@ -346,25 +346,25 @@ python<span class="w"> </span>-m<span class="w"> </span>jupyter<span class="w"> 
 <h2>Usage<a class="headerlink" href="#usage" title="Link to this heading">#</a></h2>
 <p>See the <a class="reference external" href="https://github.com/greenelab/buddi_analysis">tutorial</a> for detailed instructions on how to use BuDDI.</p>
 <p>To import BuDDI and its helper methods within your Python code, simply add the following</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">buddi_v2</span><span class="w"> </span><span class="kn">import</span> <span class="n">buddi</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">buddi_v2.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">sc_preprocess</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">buddi_v2.plotting</span><span class="w"> </span><span class="kn">import</span> <span class="n">validation_plotting</span> <span class="k">as</span> <span class="n">vp</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">buddi</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">buddi.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">sc_preprocess</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">buddi.plotting</span><span class="w"> </span><span class="kn">import</span> <span class="n">validation_plotting</span> <span class="k">as</span> <span class="n">vp</span>
 </pre></div>
 </div>
 </section>
-<section id="why-it-s-v2">
-<h2>Why it’s “v2”<a class="headerlink" href="#why-it-s-v2" title="Link to this heading">#</a></h2>
-<p>This is a refactored version of the original BuDDI model—rewritten enough that it felt better to make it a separate repo instead of a fork. BuDDI v2 also fully switches over to TensorFlow 2 (the original was TF1), so the v2 numbering also fits nicely.</p>
+<section id="package-naming">
+<h2>Package Naming<a class="headerlink" href="#package-naming" title="Link to this heading">#</a></h2>
+<p>The package is published as <code class="docutils literal notranslate"><span class="pre">buddi</span></code>, and the source tree now lives under <code class="docutils literal notranslate"><span class="pre">src/buddi</span></code>.</p>
 <div class="toctree-wrapper compound">
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="python-api.html">Python API</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="_api/buddi_v2.html">buddi_v2</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="_api/buddi_v2.data.html">buddi_v2.data</a></li>
-<li class="toctree-l3"><a class="reference internal" href="_api/buddi_v2.dataset.html">buddi_v2.dataset</a></li>
-<li class="toctree-l3"><a class="reference internal" href="_api/buddi_v2.models.html">buddi_v2.models</a></li>
-<li class="toctree-l3"><a class="reference internal" href="_api/buddi_v2.plotting.html">buddi_v2.plotting</a></li>
-<li class="toctree-l3"><a class="reference internal" href="_api/buddi_v2.preprocessing.html">buddi_v2.preprocessing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="_api/buddi.html">buddi</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="_api/buddi.data.html">buddi.data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_api/buddi.dataset.html">buddi.dataset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_api/buddi.models.html">buddi.models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_api/buddi.plotting.html">buddi.plotting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="_api/buddi.preprocessing.html">buddi.preprocessing</a></li>
 </ul>
 </li>
 </ul>

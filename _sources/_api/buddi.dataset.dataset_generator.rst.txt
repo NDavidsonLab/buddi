@@ -1,0 +1,12 @@
+buddi.dataset.dataset\_generator
+================================
+
+.. automodule:: buddi.dataset.dataset_generator
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      get_dataset
+   

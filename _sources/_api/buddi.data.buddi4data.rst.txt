@@ -1,0 +1,18 @@
+buddi.data.buddi4data
+=====================
+
+.. automodule:: buddi.data.buddi4data
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      plot_data
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      BuDDI4Data
+   

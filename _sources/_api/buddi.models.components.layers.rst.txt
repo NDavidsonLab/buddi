@@ -1,0 +1,13 @@
+buddi.models.components.layers
+==============================
+
+.. automodule:: buddi.models.components.layers
+
+   
+   .. rubric:: Classes
+
+   .. autosummary::
+   
+      Layer
+      ReparameterizationLayer
+   

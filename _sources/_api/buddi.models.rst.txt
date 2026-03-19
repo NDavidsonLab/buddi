@@ -1,0 +1,18 @@
+buddi.models
+============
+
+.. automodule:: buddi.models
+
+   
+.. rubric:: Modules
+
+.. autosummary::
+   :toctree:
+   :recursive:
+
+   buddi3_class
+   buddi4
+   buddi4_class
+   buddi_abstract_class
+   components
+   fit

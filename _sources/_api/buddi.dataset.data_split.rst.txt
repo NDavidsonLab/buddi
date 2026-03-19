@@ -1,0 +1,12 @@
+buddi.dataset.data\_split
+=========================
+
+.. automodule:: buddi.dataset.data_split
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      train_validation_split
+   

@@ -1,0 +1,17 @@
+﻿buddi
+=====
+
+.. automodule:: buddi
+
+   
+.. rubric:: Modules
+
+.. autosummary::
+   :toctree:
+   :recursive:
+
+   data
+   dataset
+   models
+   plotting
+   preprocessing
