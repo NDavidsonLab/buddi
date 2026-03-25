@@ -1,6 +1,4 @@
-from typing import Union, Callable, Optional, List
-import os
-import json
+from typing import Callable, List, Optional, Union
 
 import tensorflow as tf
 
@@ -94,62 +92,3 @@ class BuDDI3(BuDDIAbstract):
 
     def fit(self, **kwargs):
         raise NotImplementedError("fit() not implemented.")
-
-    # ─── Save / Load ────────────────────────────────────────────
-    def save(self, directory: str):
-        """
-        Save the model to the specified directory.
-
-        :param directory: Directory to save the model to
-        """
-        os.makedirs(directory, exist_ok=True)
-        # save config only
-
-        with open(os.path.join(directory, "config.json"), "w") as f:
-            json.dump(self.config, f)
-
-        # save weights
-        for name, model in self.encoders.items():
-            model.save_weights(os.path.join(directory, f"{name}_encoder.weights.h5"))
-        for name, model in self.classifiers.items():
-            model.save_weights(os.path.join(directory, f"{name}_classifier.weights.h5"))
-        self.decoder.save_weights(os.path.join(directory, "decoder.weights.h5"))
-        self.prop_estimator.save_weights(
-            os.path.join(directory, "prop_estimator.weights.h5")
-        )
-
-    @classmethod
-    def load(cls, directory: str) -> "BuDDI3":
-        """
-        Load the model from the specified directory and reconstruct the model class
-        from the saved config
-
-        :param directory: Directory to load the model from
-        :return: BuDDI class object with loaded weights
-        """
-        config_file = os.path.join(directory, "config.json")
-        if not os.path.exists(config_file):
-            # returns None if the config file does not exist
-            return None
-
-        with open(config_file, "r") as f:
-            cfg = json.load(f)
-        obj = cls(**cfg)
-
-        for name in obj.encoder_branch_names:
-            obj._encoders[name].load_weights(
-                os.path.join(directory, f"{name}_encoder.weights.h5")
-            )
-            obj._classifiers[name].load_weights(
-                os.path.join(directory, f"{name}_classifier.weights.h5")
-            )
-        obj._encoders[obj._slack_branch_name].load_weights(
-            os.path.join(directory, f"{obj._slack_branch_name}_encoder.weights.h5")
-        )
-
-        obj._decoder.load_weights(os.path.join(directory, "decoder.weights.h5"))
-        obj._prop_estimator.load_weights(
-            os.path.join(directory, "prop_estimator.weights.h5")
-        )
-
-        return obj

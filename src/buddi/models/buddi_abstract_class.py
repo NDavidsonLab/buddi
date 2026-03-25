@@ -1,4 +1,4 @@
-from typing import Union, Callable, Optional, List, Dict, Tuple
+from typing import Union, Callable, Optional, List, Dict, Tuple, Type, TypeVar
 import os
 import json
 from abc import ABC, abstractmethod
@@ -21,6 +21,8 @@ from .components.layers import ReparameterizationLayer
 from .components.losses import kl_loss, unsupervised_dummy_loss_fn
 
 ActivationFn = Union[str, Callable[[tf.Tensor], tf.Tensor]]
+
+TBuDDI = TypeVar("TBuDDI", bound="BuDDIAbstract")
 
 
 class BuDDIAbstract(ABC):
@@ -559,7 +561,6 @@ class BuDDIAbstract(ABC):
         raise NotImplementedError("fit() not implemented.")
 
     # ─── Save / Load ────────────────────────────────────────────
-    @abstractmethod
     def save(self, directory: str):
         """
         Save the model to the specified directory.
@@ -583,7 +584,7 @@ class BuDDIAbstract(ABC):
         )
 
     @classmethod
-    def load(cls, directory: str) -> "BuDDIAbstract":
+    def load(cls: Type[TBuDDI], directory: str) -> Optional[TBuDDI]:
         """
         Load the model from the specified directory and reconstruct the model class
         from the saved config
