@@ -30,10 +30,12 @@ dependencies = [
   "poethepoet>=0.37",
   "scikit-learn>=1.6.1",
   "seaborn>=0.13.2",
-  # macOS Intel: cap at the last line that shipped x86_64 wheels
-  "tensorflow>=2.16,<2.21; platform_system=='Darwin' and platform_machine=='x86_64'",
-  # Default TensorFlow: CPU-capable everywhere; no CUDA deps unless [and-cuda] is requested.
-  "tensorflow<3,>=2.16; platform_system!='Darwin' or platform_machine=='arm64'",
+
+  # restricted to <2.19 on OS X to work with intel macs and tensorflow-metal
+  "tensorflow>=2.16,<2.19; platform_system=='Darwin'",
+  # any tf v2.x can be installed when not running on a mac
+  "tensorflow>=2.16,<3; platform_system!='Darwin'",
+
   "tqdm>=4.67.1",
   "umap-learn>=0.5.11",
 ]
