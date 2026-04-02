@@ -35,7 +35,7 @@ class BuDDI(BuDDIAbstract):
             n_samp_types=2
         )
 
-        # 5-compartment model (custom)
+        # 5-compartment model
         model = BuDDI(
             n_x=1000,
             n_y=10,
