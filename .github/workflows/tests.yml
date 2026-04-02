@@ -21,4 +21,4 @@ jobs:
       - name: Install the latest version of uv
         uses: astral-sh/setup-uv@v7
       # use prek for speedy precommit results
-      - uses: j178/prek-action@v1
+      - uses: j178/prek-action@v2
