@@ -10,14 +10,14 @@ from tensorflow.keras.models import Model
 from tensorflow.keras.optimizers import Adam
 from tqdm import tqdm
 
-from .components.branches import (
+from ..components.branches import (
     build_encoder_branch,
     build_latent_space_classifier,
     build_prop_estimator,
     build_semi_supervised_decoder,
 )
-from .components.layers import ReparameterizationLayer
-from .components.losses import (
+from ..components.layers import ReparameterizationLayer
+from ..components.losses import (
     classifier_loss_generator,
     kl_loss_generator,
     reconstr_loss_generator,
